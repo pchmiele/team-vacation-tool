@@ -1,2 +1,6 @@
-# team-vacation-tool
+
+# Description
+
+# Installation
+
 Vacation planning tool for teams

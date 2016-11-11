@@ -1,5 +1,20 @@
+### Elm ###
+# elm-package generated files
+elm-stuff
+# elm-repl generated files
+repl-temp-*
+
+### Elixir ###
 /_build
 /cover
 /deps
 erl_crash.dump
 *.ez
+
+# Phoenix: a web framework for Elixir
+/db
+/deps
+node_modules/
+/priv/static/
+/config/prod.secret.exs
+/rel
