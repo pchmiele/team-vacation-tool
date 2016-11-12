@@ -21,4 +21,4 @@ import "phoenix_html"
 // import socket from "./socket"
 
 const elmDiv = document.getElementById('elm-main')
-    , elmApp = Elm.TeamVacationTool.embed(elmDiv)
+    , elmApp = Elm.Main.embed(elmDiv)
