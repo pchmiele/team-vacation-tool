@@ -11,6 +11,7 @@ Vacation planning tool for teams
 4. Install [elm](http://install.elm-lang.org/Elm-Platform-0.17.1.exe)
 5. Install [nodejs](https://nodejs.org/en/) >= 5.0v
 6. Install dependencies: 
+
 ```bash
     npm install
     mix deps.get

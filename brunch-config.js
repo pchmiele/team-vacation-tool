@@ -39,7 +39,7 @@ exports.config = {
   plugins: {
     elmBrunch: {
       elmFolder: "web\/elm",
-      mainModules: ["team_vacation_tool.elm"],
+      mainModules: ["src\/Main.elm"],
       outputFolder: '..\/static\/vendor'
     },
 

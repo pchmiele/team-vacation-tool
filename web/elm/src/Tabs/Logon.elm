@@ -94,7 +94,7 @@ model : Model
 model =
     { username = "admin"
     , password = ""
-    , fakeAuth = False
+    , fakeAuth = True
     , authFailed = False
     , authorized = False
     , mdl = Material.model
