@@ -35,6 +35,9 @@ defmodule TeamVacationTool.Mixfile do
      {:phoenix_ecto, "~> 3.0"},
      {:postgrex, ">= 0.0.0"},
      {:phoenix_html, "~> 2.6"},
+     {:cors_plug, "~> 1.1"},
+     {:comeonin, "~> 2.0"},
+     {:secure_random, "~> 0.2"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.11"},
      {:cowboy, "~> 1.0"}]
