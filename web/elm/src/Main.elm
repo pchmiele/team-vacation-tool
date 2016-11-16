@@ -16,12 +16,12 @@ import Tabs.Puppies
 import Tabs.Tables
 import Tabs.Logon
 import Tabs.Monitoring
+import Tabs.Register
 import Array exposing (Array)
 import Dict exposing (Dict)
 import String
 import Auth
 import Utils
-
 
 -- MODEL
 
@@ -33,6 +33,7 @@ type alias Model =
     , tabPuppies : Tabs.Puppies.Model
     , tabTables : Tabs.Tables.Model
     , tabLogon : Tabs.Logon.Model
+    , tabRegister: Tabs.Register.Model
     , tabMonitoring : Tabs.Monitoring.Model
     , tabInfoArray : Array TabInfo
     , mdl : Material.Model
@@ -48,10 +49,10 @@ model =
     , tabPuppies = Tabs.Puppies.model
     , tabTables = Tabs.Tables.model
     , tabLogon = Tabs.Logon.model
+    , tabRegister = Tabs.Register.model
     , tabMonitoring = Tabs.Monitoring.model
     , tabInfoArray = tabInfoArray
     }
-
 
 
 -- ACTION, UPDATE
@@ -63,6 +64,7 @@ type Msg
     | TablesMsg Tabs.Tables.Msg
     | MonitoringMsg Tabs.Monitoring.Msg
     | LogonMsg Tabs.Logon.Msg
+    | RegisterMsg Tabs.Register.Msg
     | SelectTab Int
     | LogoutMsg
 
@@ -116,6 +118,13 @@ update msg model =
                         Tabs.Logon.update childMsg ourModel.tabLogon
                 in
                     { ourModel | tabLogon = newChildModel } ! [ (Cmd.map LogonMsg newChildCommand), ourCommand ]
+
+        RegisterMsg childMsg ->
+            let
+                ( newChildModel, newChildCommand ) =
+                    Tabs.Register.update childMsg model.tabRegister
+            in
+                ( { model | tabRegister = newChildModel }, Cmd.map RegisterMsg newChildCommand )
 
         LogoutMsg ->
             let
@@ -194,10 +203,10 @@ tabList : List Tab
 tabList =
     [ { info = logonTabInfo, tabViewMap = logonTabViewMap }
     , { info = { tabName = "Tables", tabUrl = "tables", requiredRole = Auth.User }, tabViewMap = tableTabViewMap }
+    , { info = registerTabInfo, tabViewMap = registerTabViewMap }
     , { info = { tabName = "Puppies", tabUrl = "puppies", requiredRole = Auth.Admin }, tabViewMap = .tabPuppies >> Tabs.Puppies.view >> App.map PuppiesMsg }
     , { info = { tabName = "Monitoring", tabUrl = "monitoring", requiredRole = Auth.User }, tabViewMap = .tabMonitoring >> Tabs.Monitoring.view >> App.map MonitoringMsg }
     ]
-
 
 logonTabInfo : TabInfo
 logonTabInfo =
@@ -221,6 +230,22 @@ logonTabViewMap model =
         in
             .tabLogon model |> viewWithInjectedArgs |> App.map LogonMsg
 
+registerTabInfo : TabInfo
+registerTabInfo =
+   { tabName = "Register", tabUrl = "register", requiredRole = Auth.None }
+
+
+registerTabViewMap : Model -> Html Msg
+registerTabViewMap model =
+    let
+        desiredTabInfo =
+            Array.get model.desiredTab model.tabInfoArray |> Maybe.withDefault registerTabInfo
+    in
+        let
+            viewWithInjectedArgs =
+                Tabs.Register.view (model.selectedTab /= model.desiredTab) desiredTabInfo.tabName
+        in
+            .tabRegister model |> viewWithInjectedArgs |> App.map RegisterMsg
 
 tableTabViewMap : Model -> Html Msg
 tableTabViewMap model =

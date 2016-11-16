@@ -69,7 +69,7 @@ httpCheckCredentials' username password =
             [ ( "Content-Type", "application/json" )
             , ( "Accept", "application/json" )
             ]
-        , url = "http://127.0.0.1:3001/users/logon"
+        , url = "http://127.0.0.1:3001/api/session"
         , body =
             Http.string <| encodeAuthRequest username password
         }
@@ -94,7 +94,7 @@ model : Model
 model =
     { username = "admin"
     , password = ""
-    , fakeAuth = True
+    , fakeAuth = False
     , authFailed = False
     , authorized = False
     , mdl = Material.model

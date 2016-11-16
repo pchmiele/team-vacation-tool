@@ -33,6 +33,6 @@ Vacation planning tool for teams
     iex -S mix phoenix.server
 ```
 
-9. Open http://localhost:4000/ in browser
-10. If everything is ok you should see:
+10. Open http://localhost:4000/ in browser
+11. If everything is ok you should see:
 ![Img](https://github.com/pchmiele/team_vacation_tool/blob/master/docs/main.png)
