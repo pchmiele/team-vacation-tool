@@ -16,17 +16,23 @@ Vacation planning tool for teams
     npm install
     mix deps.get
 ```
+7. Create and update database:
 
-7. Verify if everything is ok. Tests should pass:
+``` 
+    mix ecto.create # Run only if it is your first time. This command will create new database.
+    mix ecto.migrate
+```
+
+8. Verify if everything is ok. Tests should pass:
 ```
     mix test
 ```
 
-8. Start server:
+9. Start server:
 ```
     iex -S mix phoenix.server
 ```
 
 9. Open http://localhost:4000/ in browser
 10. If everything is ok you should see:
-![Img](.\docs\main.png)
+![Img](https://github.com/pchmiele/team_vacation_tool/blob/master/docs/main.png)
