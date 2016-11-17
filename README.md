@@ -13,9 +13,17 @@ Vacation planning tool for teams
 6. Install dependencies: 
 
 ```bash
-    npm install
     mix deps.get
+    npm install
 ```
+
+Beacause of problem in babel-preset-react and babel-preset-es2015 modules you also have to run:
+
+```
+    npm install babel-preset-es2015 --save
+    npm install babel-preset-react --save
+```
+
 7. Create and update database:
 
 ``` 
@@ -33,6 +41,6 @@ Vacation planning tool for teams
     iex -S mix phoenix.server
 ```
 
-9. Open http://localhost:4000/ in browser
-10. If everything is ok you should see:
+10. Open http://localhost:4000/ in browser
+11. If everything is ok you should see:
 ![Img](https://github.com/pchmiele/team_vacation_tool/blob/master/docs/main.png)
