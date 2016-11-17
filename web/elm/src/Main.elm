@@ -16,6 +16,7 @@ import Tabs.Puppies
 import Tabs.Tables
 import Tabs.Logon
 import Tabs.Monitoring
+import Tabs.Monitoring as GetTime exposing (Msg(GetTime))
 import Array exposing (Array)
 import Dict exposing (Dict)
 import String
@@ -114,8 +115,11 @@ update msg model =
                 let
                     ( newChildModel, newChildCommand ) =
                         Tabs.Logon.update childMsg ourModel.tabLogon
+
+                    ( secondChildModel, secondChildCommand ) =
+                        Tabs.Monitoring.update GetTime ourModel.tabMonitoring
                 in
-                    { ourModel | tabLogon = newChildModel } ! [ (Cmd.map LogonMsg newChildCommand), ourCommand ]
+                    { ourModel | tabLogon = newChildModel, tabMonitoring = secondChildModel } ! [ (Cmd.map LogonMsg newChildCommand), (Cmd.map MonitoringMsg secondChildCommand), ourCommand ]
 
         LogoutMsg ->
             let
@@ -195,7 +199,7 @@ tabList =
     [ { info = logonTabInfo, tabViewMap = logonTabViewMap }
     , { info = { tabName = "Tables", tabUrl = "tables", requiredRole = Auth.User }, tabViewMap = tableTabViewMap }
     , { info = { tabName = "Puppies", tabUrl = "puppies", requiredRole = Auth.Admin }, tabViewMap = .tabPuppies >> Tabs.Puppies.view >> App.map PuppiesMsg }
-    , { info = { tabName = "Monitoring", tabUrl = "monitoring", requiredRole = Auth.User }, tabViewMap = .tabMonitoring >> Tabs.Monitoring.view >> App.map MonitoringMsg }
+    , { info = { tabName = "Monitoring", tabUrl = "monitoring", requiredRole = Auth.User }, tabViewMap = monitoringTabViewMap }
     ]
 
 
@@ -226,6 +230,11 @@ tableTabViewMap : Model -> Html Msg
 tableTabViewMap model =
     --inject authDetails into tables tab view calls
     Tabs.Tables.view model.userAuth model.tabTables |> App.map TablesMsg
+
+
+monitoringTabViewMap : Model -> Html Msg
+monitoringTabViewMap model =
+    Tabs.Monitoring.view model.tabMonitoring |> App.map MonitoringMsg
 
 
 
