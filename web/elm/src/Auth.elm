@@ -1,19 +1,25 @@
-module Auth exposing (Role(..), UserAuth, none)
+module Auth exposing (Data, Response, Info, none)
 
-
-type Role
-    = User
-    | Admin
-    | None
-
-
-type alias UserAuth =
-    { username : String
-    , sessionId : String
-    , roles : List Role
+type alias Data = 
+    {
+        token: String
     }
 
+type alias Response =
+    { 
+        data: Data
+    }
 
-none : UserAuth
+type alias Info = 
+    {
+        username: String,
+        token: String
+    }
+
+emptyData : Data
+emptyData = 
+    Data ""
+
+none : Response
 none =
-    UserAuth "" "" [ None ]
+    Response emptyData

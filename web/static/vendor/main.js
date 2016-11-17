@@ -14901,19 +14901,18 @@ var _evancz$elm_http$Http$post = F3(
 			A2(_evancz$elm_http$Http$send, _evancz$elm_http$Http$defaultSettings, request));
 	});
 
-var _id3as$elm_spa_template$Auth$UserAuth = F3(
-	function (a, b, c) {
-		return {username: a, sessionId: b, roles: c};
+var _id3as$elm_spa_template$Auth$Data = function (a) {
+	return {token: a};
+};
+var _id3as$elm_spa_template$Auth$emptyData = _id3as$elm_spa_template$Auth$Data('');
+var _id3as$elm_spa_template$Auth$Response = function (a) {
+	return {data: a};
+};
+var _id3as$elm_spa_template$Auth$none = _id3as$elm_spa_template$Auth$Response(_id3as$elm_spa_template$Auth$emptyData);
+var _id3as$elm_spa_template$Auth$Info = F2(
+	function (a, b) {
+		return {username: a, token: b};
 	});
-var _id3as$elm_spa_template$Auth$None = {ctor: 'None'};
-var _id3as$elm_spa_template$Auth$none = A3(
-	_id3as$elm_spa_template$Auth$UserAuth,
-	'',
-	'',
-	_elm_lang$core$Native_List.fromArray(
-		[_id3as$elm_spa_template$Auth$None]));
-var _id3as$elm_spa_template$Auth$Admin = {ctor: 'Admin'};
-var _id3as$elm_spa_template$Auth$User = {ctor: 'User'};
 
 var _sporto$erl$Erl$appendPathSegments = F2(
 	function (segments, url) {
@@ -15662,132 +15661,131 @@ var _id3as$elm_spa_template$Tabs_Tables$Data = F3(
 		return {material: a, quantity: b, unitPrice: c};
 	});
 var _id3as$elm_spa_template$Tabs_Tables$Reorder = {ctor: 'Reorder'};
-var _id3as$elm_spa_template$Tabs_Tables$view = F2(
-	function (authdetails, model) {
-		var sort = function () {
-			var _p3 = model.order;
-			if (_p3.ctor === 'Just') {
-				if (_p3._0.ctor === 'Ascending') {
-					return _elm_lang$core$List$sortBy(
-						function (_) {
-							return _.material;
-						});
-				} else {
-					return _elm_lang$core$List$sortWith(
-						F2(
-							function (x, y) {
-								return A2(
-									_id3as$elm_spa_template$Tabs_Tables$reverse,
-									function (_) {
-										return _.material;
-									}(x),
-									function (_) {
-										return _.material;
-									}(y));
-							}));
-				}
+var _id3as$elm_spa_template$Tabs_Tables$view = function (model) {
+	var sort = function () {
+		var _p3 = model.order;
+		if (_p3.ctor === 'Just') {
+			if (_p3._0.ctor === 'Ascending') {
+				return _elm_lang$core$List$sortBy(
+					function (_) {
+						return _.material;
+					});
 			} else {
-				return _elm_lang$core$Basics$identity;
+				return _elm_lang$core$List$sortWith(
+					F2(
+						function (x, y) {
+							return A2(
+								_id3as$elm_spa_template$Tabs_Tables$reverse,
+								function (_) {
+									return _.material;
+								}(x),
+								function (_) {
+									return _.material;
+								}(y));
+						}));
 			}
-		}();
-		return A2(
-			_debois$elm_mdl$Material_Table$table,
-			_elm_lang$core$Native_List.fromArray(
-				[]),
-			_elm_lang$core$Native_List.fromArray(
-				[
-					A2(
-					_debois$elm_mdl$Material_Table$thead,
-					_elm_lang$core$Native_List.fromArray(
-						[]),
-					_elm_lang$core$Native_List.fromArray(
-						[
-							A2(
-							_debois$elm_mdl$Material_Table$tr,
-							_elm_lang$core$Native_List.fromArray(
-								[]),
-							_elm_lang$core$Native_List.fromArray(
-								[
-									A2(
-									_debois$elm_mdl$Material_Table$th,
-									_elm_lang$core$Native_List.fromArray(
-										[
-											A2(
-											_elm_lang$core$Maybe$withDefault,
-											_debois$elm_mdl$Material_Options$nop,
-											A2(_elm_lang$core$Maybe$map, _debois$elm_mdl$Material_Table$sorted, model.order)),
-											_debois$elm_mdl$Material_Table$onClick(_id3as$elm_spa_template$Tabs_Tables$Reorder)
-										]),
-									_elm_lang$core$Native_List.fromArray(
-										[
-											_elm_lang$html$Html$text('Material')
-										])),
-									A2(
-									_debois$elm_mdl$Material_Table$th,
-									_elm_lang$core$Native_List.fromArray(
-										[_debois$elm_mdl$Material_Table$numeric]),
-									_elm_lang$core$Native_List.fromArray(
-										[
-											_elm_lang$html$Html$text('Quantity')
-										])),
-									A2(
-									_debois$elm_mdl$Material_Table$th,
-									_elm_lang$core$Native_List.fromArray(
-										[_debois$elm_mdl$Material_Table$numeric]),
-									_elm_lang$core$Native_List.fromArray(
-										[
-											_elm_lang$html$Html$text('Unit Price')
-										]))
-								]))
-						])),
-					A2(
-					_debois$elm_mdl$Material_Table$tbody,
-					_elm_lang$core$Native_List.fromArray(
-						[]),
-					A2(
-						_elm_lang$core$List$indexedMap,
-						F2(
-							function (idx, item) {
-								return A2(
-									_debois$elm_mdl$Material_Table$tr,
-									_elm_lang$core$Native_List.fromArray(
-										[]),
-									_elm_lang$core$Native_List.fromArray(
-										[
-											A2(
-											_debois$elm_mdl$Material_Table$td,
-											_elm_lang$core$Native_List.fromArray(
-												[]),
-											_elm_lang$core$Native_List.fromArray(
-												[
-													_elm_lang$html$Html$text(item.material)
-												])),
-											A2(
-											_debois$elm_mdl$Material_Table$td,
-											_elm_lang$core$Native_List.fromArray(
-												[_debois$elm_mdl$Material_Table$numeric]),
-											_elm_lang$core$Native_List.fromArray(
-												[
-													_elm_lang$html$Html$text(item.quantity)
-												])),
-											A2(
-											_debois$elm_mdl$Material_Table$td,
-											_elm_lang$core$Native_List.fromArray(
-												[_debois$elm_mdl$Material_Table$numeric]),
-											_elm_lang$core$Native_List.fromArray(
-												[
-													_elm_lang$html$Html$text(item.unitPrice)
-												]))
-										]));
-							}),
-						sort(_id3as$elm_spa_template$Tabs_Tables$data)))
-				]));
-	});
+		} else {
+			return _elm_lang$core$Basics$identity;
+		}
+	}();
+	return A2(
+		_debois$elm_mdl$Material_Table$table,
+		_elm_lang$core$Native_List.fromArray(
+			[]),
+		_elm_lang$core$Native_List.fromArray(
+			[
+				A2(
+				_debois$elm_mdl$Material_Table$thead,
+				_elm_lang$core$Native_List.fromArray(
+					[]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						A2(
+						_debois$elm_mdl$Material_Table$tr,
+						_elm_lang$core$Native_List.fromArray(
+							[]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								A2(
+								_debois$elm_mdl$Material_Table$th,
+								_elm_lang$core$Native_List.fromArray(
+									[
+										A2(
+										_elm_lang$core$Maybe$withDefault,
+										_debois$elm_mdl$Material_Options$nop,
+										A2(_elm_lang$core$Maybe$map, _debois$elm_mdl$Material_Table$sorted, model.order)),
+										_debois$elm_mdl$Material_Table$onClick(_id3as$elm_spa_template$Tabs_Tables$Reorder)
+									]),
+								_elm_lang$core$Native_List.fromArray(
+									[
+										_elm_lang$html$Html$text('Material')
+									])),
+								A2(
+								_debois$elm_mdl$Material_Table$th,
+								_elm_lang$core$Native_List.fromArray(
+									[_debois$elm_mdl$Material_Table$numeric]),
+								_elm_lang$core$Native_List.fromArray(
+									[
+										_elm_lang$html$Html$text('Quantity')
+									])),
+								A2(
+								_debois$elm_mdl$Material_Table$th,
+								_elm_lang$core$Native_List.fromArray(
+									[_debois$elm_mdl$Material_Table$numeric]),
+								_elm_lang$core$Native_List.fromArray(
+									[
+										_elm_lang$html$Html$text('Unit Price')
+									]))
+							]))
+					])),
+				A2(
+				_debois$elm_mdl$Material_Table$tbody,
+				_elm_lang$core$Native_List.fromArray(
+					[]),
+				A2(
+					_elm_lang$core$List$indexedMap,
+					F2(
+						function (idx, item) {
+							return A2(
+								_debois$elm_mdl$Material_Table$tr,
+								_elm_lang$core$Native_List.fromArray(
+									[]),
+								_elm_lang$core$Native_List.fromArray(
+									[
+										A2(
+										_debois$elm_mdl$Material_Table$td,
+										_elm_lang$core$Native_List.fromArray(
+											[]),
+										_elm_lang$core$Native_List.fromArray(
+											[
+												_elm_lang$html$Html$text(item.material)
+											])),
+										A2(
+										_debois$elm_mdl$Material_Table$td,
+										_elm_lang$core$Native_List.fromArray(
+											[_debois$elm_mdl$Material_Table$numeric]),
+										_elm_lang$core$Native_List.fromArray(
+											[
+												_elm_lang$html$Html$text(item.quantity)
+											])),
+										A2(
+										_debois$elm_mdl$Material_Table$td,
+										_elm_lang$core$Native_List.fromArray(
+											[_debois$elm_mdl$Material_Table$numeric]),
+										_elm_lang$core$Native_List.fromArray(
+											[
+												_elm_lang$html$Html$text(item.unitPrice)
+											]))
+									]));
+						}),
+					sort(_id3as$elm_spa_template$Tabs_Tables$data)))
+			]));
+};
 var _id3as$elm_spa_template$Tabs_Tables$main = {
 	main: _elm_lang$html$Html_App$program(
 		{
 			init: {ctor: '_Tuple2', _0: _id3as$elm_spa_template$Tabs_Tables$model, _1: _elm_lang$core$Platform_Cmd$none},
-			view: _id3as$elm_spa_template$Tabs_Tables$view(_id3as$elm_spa_template$Auth$none),
+			view: _id3as$elm_spa_template$Tabs_Tables$view,
 			subscriptions: _elm_lang$core$Basics$always(_elm_lang$core$Platform_Sub$none),
 			update: _id3as$elm_spa_template$Tabs_Tables$update
 		})
@@ -15803,33 +15801,18 @@ var _id3as$elm_spa_template$Tabs_Logon$formCss = _elm_lang$html$Html_Attributes$
 			{ctor: '_Tuple2', _0: 'border', _1: '1px solid #ebebeb'},
 			{ctor: '_Tuple2', _0: 'box-shadow', _1: 'rgba(0,0,0,0.14902) 0px 1px 1px 0px,rgba(0,0,0,0.09804) 0px 1px 2px 0px'}
 		]));
-var _id3as$elm_spa_template$Tabs_Logon$strToRole = function (str) {
-	var _p0 = str;
-	switch (_p0) {
-		case 'admin':
-			return _id3as$elm_spa_template$Auth$Admin;
-		case 'user':
-			return _id3as$elm_spa_template$Auth$User;
-		default:
-			return _id3as$elm_spa_template$Auth$None;
-	}
-};
-var _id3as$elm_spa_template$Tabs_Logon$decodeRole = A2(_elm_lang$core$Json_Decode$map, _id3as$elm_spa_template$Tabs_Logon$strToRole, _elm_lang$core$Json_Decode$string);
+var _id3as$elm_spa_template$Tabs_Logon$decodeAuthData = A3(
+	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+	'token',
+	_elm_lang$core$Json_Decode$string,
+	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_id3as$elm_spa_template$Auth$Data));
 var _id3as$elm_spa_template$Tabs_Logon$decodeAuthResponse = A3(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-	'roles',
-	_elm_lang$core$Json_Decode$list(_id3as$elm_spa_template$Tabs_Logon$decodeRole),
-	A3(
-		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-		'sessionId',
-		_elm_lang$core$Json_Decode$string,
-		A3(
-			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-			'username',
-			_elm_lang$core$Json_Decode$string,
-			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_id3as$elm_spa_template$Auth$UserAuth))));
+	'data',
+	_id3as$elm_spa_template$Tabs_Logon$decodeAuthData,
+	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_id3as$elm_spa_template$Auth$Response));
 var _id3as$elm_spa_template$Tabs_Logon$encodeAuthRequest = F2(
-	function (username, password) {
+	function (email, password) {
 		return A2(
 			_elm_lang$core$Json_Encode$encode,
 			0,
@@ -15838,20 +15821,32 @@ var _id3as$elm_spa_template$Tabs_Logon$encodeAuthRequest = F2(
 					[
 						{
 						ctor: '_Tuple2',
-						_0: 'username',
-						_1: _elm_lang$core$Json_Encode$string(username)
-					},
-						{
-						ctor: '_Tuple2',
-						_0: 'password',
-						_1: _elm_lang$core$Json_Encode$string(password)
+						_0: 'user',
+						_1: _elm_lang$core$Json_Encode$object(
+							_elm_lang$core$Native_List.fromArray(
+								[
+									{
+									ctor: '_Tuple2',
+									_0: 'email',
+									_1: _elm_lang$core$Json_Encode$string(email)
+								},
+									{
+									ctor: '_Tuple2',
+									_0: 'password',
+									_1: _elm_lang$core$Json_Encode$string(password)
+								}
+								]))
 					}
 					])));
 	});
-var _id3as$elm_spa_template$Tabs_Logon$model = {username: 'admin', password: '', fakeAuth: false, authFailed: false, authorized: false, mdl: _debois$elm_mdl$Material$model};
+var _id3as$elm_spa_template$Tabs_Logon$model = {username: '', password: '', authFailed: false, authorized: false, mdl: _debois$elm_mdl$Material$model};
+var _id3as$elm_spa_template$Tabs_Logon$toAuthInfo = F2(
+	function (username, response) {
+		return A2(_id3as$elm_spa_template$Auth$Info, username, response.data.token);
+	});
 var _id3as$elm_spa_template$Tabs_Logon$httpCheckCredentials$ = F2(
 	function (username, password) {
-		return A2(
+		var response = A2(
 			_evancz$elm_http$Http$fromJson,
 			_id3as$elm_spa_template$Tabs_Logon$decodeAuthResponse,
 			A2(
@@ -15864,39 +15859,18 @@ var _id3as$elm_spa_template$Tabs_Logon$httpCheckCredentials$ = F2(
 							{ctor: '_Tuple2', _0: 'Content-Type', _1: 'application/json'},
 							{ctor: '_Tuple2', _0: 'Accept', _1: 'application/json'}
 						]),
-					url: 'http://127.0.0.1:3001/api/session',
+					url: 'http://127.0.0.1:4000/api/sessions',
 					body: _evancz$elm_http$Http$string(
 						A2(_id3as$elm_spa_template$Tabs_Logon$encodeAuthRequest, username, password))
 				}));
+		return A2(
+			_elm_lang$core$Task$map,
+			_id3as$elm_spa_template$Tabs_Logon$toAuthInfo(username),
+			response);
 	});
-var _id3as$elm_spa_template$Tabs_Logon$fakeCheckCredentials = F2(
-	function (username, password) {
-		var userAuth = function () {
-			var _p1 = username;
-			switch (_p1) {
-				case 'user':
-					return A3(
-						_id3as$elm_spa_template$Auth$UserAuth,
-						username,
-						'123',
-						_elm_lang$core$Native_List.fromArray(
-							[_id3as$elm_spa_template$Auth$User]));
-				case 'admin':
-					return A3(
-						_id3as$elm_spa_template$Auth$UserAuth,
-						username,
-						'456',
-						_elm_lang$core$Native_List.fromArray(
-							[_id3as$elm_spa_template$Auth$User, _id3as$elm_spa_template$Auth$Admin]));
-				default:
-					return _id3as$elm_spa_template$Auth$none;
-			}
-		}();
-		return _elm_lang$core$Task$succeed(userAuth);
-	});
-var _id3as$elm_spa_template$Tabs_Logon$Model = F6(
-	function (a, b, c, d, e, f) {
-		return {username: a, password: b, fakeAuth: c, authFailed: d, authorized: e, mdl: f};
+var _id3as$elm_spa_template$Tabs_Logon$Model = F5(
+	function (a, b, c, d, e) {
+		return {username: a, password: b, authFailed: c, authorized: d, mdl: e};
 	});
 var _id3as$elm_spa_template$Tabs_Logon$LoggedOut = {ctor: 'LoggedOut'};
 var _id3as$elm_spa_template$Tabs_Logon$PostFail = function (a) {
@@ -15905,34 +15879,27 @@ var _id3as$elm_spa_template$Tabs_Logon$PostFail = function (a) {
 var _id3as$elm_spa_template$Tabs_Logon$PostSucceed = function (a) {
 	return {ctor: 'PostSucceed', _0: a};
 };
-var _id3as$elm_spa_template$Tabs_Logon$checkCredentials = F3(
-	function (fakeAuth, username, password) {
-		var authTask = function () {
-			var _p2 = fakeAuth;
-			if (_p2 === true) {
-				return A2(_id3as$elm_spa_template$Tabs_Logon$fakeCheckCredentials, username, password);
-			} else {
-				return A2(_id3as$elm_spa_template$Tabs_Logon$httpCheckCredentials$, username, password);
-			}
-		}();
+var _id3as$elm_spa_template$Tabs_Logon$checkCredentials = F2(
+	function (username, password) {
+		var authTask = A2(_id3as$elm_spa_template$Tabs_Logon$httpCheckCredentials$, username, password);
 		return A3(_elm_lang$core$Task$perform, _id3as$elm_spa_template$Tabs_Logon$PostFail, _id3as$elm_spa_template$Tabs_Logon$PostSucceed, authTask);
 	});
 var _id3as$elm_spa_template$Tabs_Logon$update = F2(
 	function (msg, model) {
-		var _p3 = msg;
-		switch (_p3.ctor) {
+		var _p0 = msg;
+		switch (_p0.ctor) {
 			case 'CheckCredentials':
 				return {
 					ctor: '_Tuple2',
 					_0: model,
-					_1: A3(_id3as$elm_spa_template$Tabs_Logon$checkCredentials, model.fakeAuth, model.username, model.password)
+					_1: A2(_id3as$elm_spa_template$Tabs_Logon$checkCredentials, model.username, model.password)
 				};
 			case 'PasswordChange':
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{password: _p3._0}),
+						{password: _p0._0}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'UsernameChange':
@@ -15940,7 +15907,7 @@ var _id3as$elm_spa_template$Tabs_Logon$update = F2(
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{username: _p3._0}),
+						{username: _p0._0}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'PostSucceed':
@@ -15960,7 +15927,7 @@ var _id3as$elm_spa_template$Tabs_Logon$update = F2(
 					_elm_lang$core$Native_List.fromArray(
 						[]));
 			case 'MDL':
-				return A2(_debois$elm_mdl$Material$update, _p3._0, model);
+				return A2(_debois$elm_mdl$Material$update, _p0._0, model);
 			default:
 				return A2(
 					_elm_lang$core$Platform_Cmd_ops['!'],
@@ -15981,8 +15948,8 @@ var _id3as$elm_spa_template$Tabs_Logon$PasswordChange = function (a) {
 	return {ctor: 'PasswordChange', _0: a};
 };
 var _id3as$elm_spa_template$Tabs_Logon$CheckCredentials = {ctor: 'CheckCredentials'};
-var _id3as$elm_spa_template$Tabs_Logon$renderFormIfNotLogged = F4(
-	function (isRedirect, targetTabName, requiredRole, model) {
+var _id3as$elm_spa_template$Tabs_Logon$renderFormIfNotLogged = F3(
+	function (isRedirect, targetTabName, model) {
 		return _elm_lang$core$Basics$not(model.authorized) ? A2(
 			_elm_lang$html$Html$form,
 			_elm_lang$core$Native_List.fromArray(
@@ -16032,13 +15999,7 @@ var _id3as$elm_spa_template$Tabs_Logon$renderFormIfNotLogged = F4(
 										A2(
 											_elm_lang$core$Basics_ops['++'],
 											targetTabName,
-											A2(
-												_elm_lang$core$Basics_ops['++'],
-												' tab, you need to logon as a user in the ',
-												A2(
-													_elm_lang$core$Basics_ops['++'],
-													_elm_lang$core$Basics$toString(requiredRole),
-													' role.'))))),
+											A2(_elm_lang$core$Basics_ops['++'], ' tab, you need to logon as a user in the ', ' role.')))),
 									A2(
 									_elm_lang$html$Html$hr,
 									_elm_lang$core$Native_List.fromArray(
@@ -16102,11 +16063,7 @@ var _id3as$elm_spa_template$Tabs_Logon$renderFormIfNotLogged = F4(
 								[2]),
 							model.mdl,
 							_elm_lang$core$Native_List.fromArray(
-								[
-									_debois$elm_mdl$Material_Button$raised,
-									_debois$elm_mdl$Material_Button$colored,
-									_debois$elm_mdl$Material_Button$onClick(_id3as$elm_spa_template$Tabs_Logon$CheckCredentials)
-								]),
+								[_debois$elm_mdl$Material_Button$raised, _debois$elm_mdl$Material_Button$colored]),
 							_elm_lang$core$Native_List.fromArray(
 								[
 									_elm_lang$html$Html$text('Login')
@@ -16125,11 +16082,11 @@ var _id3as$elm_spa_template$Tabs_Logon$renderFormIfNotLogged = F4(
 				]),
 			_elm_lang$core$Native_List.fromArray(
 				[
-					_elm_lang$html$Html$text('Successfuly logged, welcome!')
+					_elm_lang$html$Html$text('Successfuly logged in, welcome!')
 				]));
 	});
-var _id3as$elm_spa_template$Tabs_Logon$view = F4(
-	function (isRedirect, targetTabName, requiredRole, model) {
+var _id3as$elm_spa_template$Tabs_Logon$view = F3(
+	function (isRedirect, targetTabName, model) {
 		return A2(
 			_debois$elm_mdl$Material_Options$div,
 			_elm_lang$core$Native_List.fromArray(
@@ -16182,14 +16139,14 @@ var _id3as$elm_spa_template$Tabs_Logon$view = F4(
 									_elm_lang$html$Html$text('Maintenance Tool in ELM')
 								]))
 						])),
-					A4(_id3as$elm_spa_template$Tabs_Logon$renderFormIfNotLogged, isRedirect, targetTabName, requiredRole, model)
+					A3(_id3as$elm_spa_template$Tabs_Logon$renderFormIfNotLogged, isRedirect, targetTabName, model)
 				]));
 	});
 var _id3as$elm_spa_template$Tabs_Logon$main = {
 	main: _elm_lang$html$Html_App$program(
 		{
 			init: {ctor: '_Tuple2', _0: _id3as$elm_spa_template$Tabs_Logon$model, _1: _elm_lang$core$Platform_Cmd$none},
-			view: A3(_id3as$elm_spa_template$Tabs_Logon$view, false, '', _id3as$elm_spa_template$Auth$None),
+			view: A2(_id3as$elm_spa_template$Tabs_Logon$view, false, ''),
 			subscriptions: _elm_lang$core$Basics$always(_elm_lang$core$Platform_Sub$none),
 			update: _id3as$elm_spa_template$Tabs_Logon$update
 		})
@@ -16369,13 +16326,21 @@ var _id3as$elm_spa_template$Tabs_Register$encodeRegisterRequest = F2(
 					[
 						{
 						ctor: '_Tuple2',
-						_0: 'email',
-						_1: _elm_lang$core$Json_Encode$string(email)
-					},
-						{
-						ctor: '_Tuple2',
-						_0: 'password',
-						_1: _elm_lang$core$Json_Encode$string(password)
+						_0: 'user',
+						_1: _elm_lang$core$Json_Encode$object(
+							_elm_lang$core$Native_List.fromArray(
+								[
+									{
+									ctor: '_Tuple2',
+									_0: 'email',
+									_1: _elm_lang$core$Json_Encode$string(email)
+								},
+									{
+									ctor: '_Tuple2',
+									_0: 'password',
+									_1: _elm_lang$core$Json_Encode$string(password)
+								}
+								]))
 					}
 					])));
 	});
@@ -16524,11 +16489,7 @@ var _id3as$elm_spa_template$Tabs_Register$renderForm = F3(
 								[]),
 							_elm_lang$core$Native_List.fromArray(
 								[
-									_elm_lang$html$Html$text(
-									A2(
-										_elm_lang$core$Basics_ops['++'],
-										'In order to access the ',
-										A2(_elm_lang$core$Basics_ops['++'], targetTabName, ' tab, you need to logon as an admin '))),
+									_elm_lang$html$Html$text(''),
 									A2(
 									_elm_lang$html$Html$hr,
 									_elm_lang$core$Native_List.fromArray(
@@ -16592,11 +16553,7 @@ var _id3as$elm_spa_template$Tabs_Register$renderForm = F3(
 								[2]),
 							model.mdl,
 							_elm_lang$core$Native_List.fromArray(
-								[
-									_debois$elm_mdl$Material_Button$raised,
-									_debois$elm_mdl$Material_Button$colored,
-									_debois$elm_mdl$Material_Button$onClick(_id3as$elm_spa_template$Tabs_Register$CheckCredentials)
-								]),
+								[_debois$elm_mdl$Material_Button$raised, _debois$elm_mdl$Material_Button$colored]),
 							_elm_lang$core$Native_List.fromArray(
 								[
 									_elm_lang$html$Html$text('Register')
@@ -16640,7 +16597,7 @@ var _id3as$elm_spa_template$Tabs_Register$view = F3(
 								]),
 							_elm_lang$core$Native_List.fromArray(
 								[
-									_elm_lang$html$Html$text('Logon')
+									_elm_lang$html$Html$text('Register')
 								])),
 							A2(
 							_elm_lang$html$Html$h3,
@@ -16655,7 +16612,7 @@ var _id3as$elm_spa_template$Tabs_Register$view = F3(
 								]),
 							_elm_lang$core$Native_List.fromArray(
 								[
-									_elm_lang$html$Html$text('Maintenance Tool in ELM')
+									_elm_lang$html$Html$text('Team Vacation Tool')
 								]))
 						])),
 					A3(_id3as$elm_spa_template$Tabs_Register$renderForm, isRedirect, targetTabName, model)
@@ -16760,15 +16717,26 @@ var _id3as$elm_spa_template$Main$e404 = function (_p0) {
 			]));
 };
 var _id3as$elm_spa_template$Main$getLoggedMsg = function (model) {
-	return (_elm_lang$core$Native_Utils.cmp(
-		_elm_lang$core$String$length(model.userAuth.username),
-		0) > 0) ? A2(
-		_elm_lang$core$Basics_ops['++'],
-		'Logged in as: ',
-		_elm_lang$core$Basics$toString(model.userAuth.username)) : '';
+	var _p1 = model.username;
+	if (_p1.ctor === 'Just') {
+		return A2(
+			_elm_lang$core$Basics_ops['++'],
+			'Logged in as: ',
+			_elm_lang$core$Basics$toString(model.username));
+	} else {
+		return '';
+	}
 };
-var _id3as$elm_spa_template$Main$registerTabInfo = {tabName: 'Register', tabUrl: 'register', requiredRole: _id3as$elm_spa_template$Auth$None};
-var _id3as$elm_spa_template$Main$logonTabInfo = {tabName: 'Logon', tabUrl: 'logon', requiredRole: _id3as$elm_spa_template$Auth$None};
+var _id3as$elm_spa_template$Main$isAuthenticated = function (model) {
+	var _p2 = model.authToken;
+	if (_p2.ctor === 'Just') {
+		return true;
+	} else {
+		return false;
+	}
+};
+var _id3as$elm_spa_template$Main$registerTabInfo = {tabName: 'Register', tabUrl: 'register', onlyForAuthenticated: true};
+var _id3as$elm_spa_template$Main$logonTabInfo = {tabName: 'Logon', tabUrl: 'logon', onlyForAuthenticated: true};
 var _id3as$elm_spa_template$Main$tabName = F2(
 	function (index, array) {
 		return function (_) {
@@ -16789,7 +16757,9 @@ var _id3as$elm_spa_template$Main$Model = function (a) {
 							return function (h) {
 								return function (i) {
 									return function (j) {
-										return {selectedTab: a, userAuth: b, desiredTab: c, tabPuppies: d, tabTables: e, tabLogon: f, tabRegister: g, tabMonitoring: h, tabInfoArray: i, mdl: j};
+										return function (k) {
+											return {selectedTab: a, username: b, authToken: c, desiredTab: d, tabPuppies: e, tabTables: f, tabLogon: g, tabRegister: h, tabMonitoring: i, tabInfoArray: j, mdl: k};
+										};
 									};
 								};
 							};
@@ -16802,7 +16772,7 @@ var _id3as$elm_spa_template$Main$Model = function (a) {
 };
 var _id3as$elm_spa_template$Main$TabInfo = F3(
 	function (a, b, c) {
-		return {tabName: a, tabUrl: b, requiredRole: c};
+		return {tabName: a, tabUrl: b, onlyForAuthenticated: c};
 	});
 var _id3as$elm_spa_template$Main$Tab = F2(
 	function (a, b) {
@@ -16814,15 +16784,19 @@ var _id3as$elm_spa_template$Main$SelectTab = function (a) {
 };
 var _id3as$elm_spa_template$Main$rememberAuthAndMaybeChangeTabs = F2(
 	function (logonMsg, model) {
-		var _p1 = logonMsg;
-		if (_p1.ctor === 'PostSucceed') {
+		var _p3 = logonMsg;
+		if (_p3.ctor === 'PostSucceed') {
+			var _p4 = _p3._0;
 			var ourCommand = _elm_lang$core$Native_Utils.eq(model.selectedTab, model.desiredTab) ? _elm_lang$core$Platform_Cmd$none : _id3as$elm_spa_template$Utils$msg2cmd(
 				_id3as$elm_spa_template$Main$SelectTab(model.desiredTab));
 			return {
 				ctor: '_Tuple2',
 				_0: _elm_lang$core$Native_Utils.update(
 					model,
-					{userAuth: _p1._0}),
+					{
+						username: _elm_lang$core$Maybe$Just(_p4.username),
+						authToken: _elm_lang$core$Maybe$Just(_p4.token)
+					}),
 				_1: ourCommand
 			};
 		} else {
@@ -16857,11 +16831,10 @@ var _id3as$elm_spa_template$Main$logonTabViewMap = function (model) {
 		_elm_lang$core$Maybe$withDefault,
 		_id3as$elm_spa_template$Main$logonTabInfo,
 		A2(_elm_lang$core$Array$get, model.desiredTab, model.tabInfoArray));
-	var viewWithInjectedArgs = A3(
+	var viewWithInjectedArgs = A2(
 		_id3as$elm_spa_template$Tabs_Logon$view,
 		!_elm_lang$core$Native_Utils.eq(model.selectedTab, model.desiredTab),
-		desiredTabInfo.tabName,
-		desiredTabInfo.requiredRole);
+		desiredTabInfo.tabName);
 	return A2(
 		_elm_lang$html$Html_App$map,
 		_id3as$elm_spa_template$Main$LogonMsg,
@@ -16880,110 +16853,35 @@ var _id3as$elm_spa_template$Main$tableTabViewMap = function (model) {
 	return A2(
 		_elm_lang$html$Html_App$map,
 		_id3as$elm_spa_template$Main$TablesMsg,
-		A2(_id3as$elm_spa_template$Tabs_Tables$view, model.userAuth, model.tabTables));
+		_id3as$elm_spa_template$Tabs_Tables$view(model.tabTables));
 };
 var _id3as$elm_spa_template$Main$PuppiesMsg = function (a) {
 	return {ctor: 'PuppiesMsg', _0: a};
 };
-var _id3as$elm_spa_template$Main$tabList = _elm_lang$core$Native_List.fromArray(
-	[
-		{info: _id3as$elm_spa_template$Main$logonTabInfo, tabViewMap: _id3as$elm_spa_template$Main$logonTabViewMap},
-		{
-		info: {tabName: 'Tables', tabUrl: 'tables', requiredRole: _id3as$elm_spa_template$Auth$User},
-		tabViewMap: _id3as$elm_spa_template$Main$tableTabViewMap
-	},
-		{info: _id3as$elm_spa_template$Main$registerTabInfo, tabViewMap: _id3as$elm_spa_template$Main$registerTabViewMap},
-		{
-		info: {tabName: 'Puppies', tabUrl: 'puppies', requiredRole: _id3as$elm_spa_template$Auth$Admin},
-		tabViewMap: function (_p2) {
-			return A2(
-				_elm_lang$html$Html_App$map,
-				_id3as$elm_spa_template$Main$PuppiesMsg,
-				_id3as$elm_spa_template$Tabs_Puppies$view(
-					function (_) {
-						return _.tabPuppies;
-					}(_p2)));
-		}
-	},
-		{
-		info: {tabName: 'Monitoring', tabUrl: 'monitoring', requiredRole: _id3as$elm_spa_template$Auth$User},
-		tabViewMap: function (_p3) {
-			return A2(
-				_elm_lang$html$Html_App$map,
-				_id3as$elm_spa_template$Main$MonitoringMsg,
-				_id3as$elm_spa_template$Tabs_Monitoring$view(
-					function (_) {
-						return _.tabMonitoring;
-					}(_p3)));
-		}
-	}
-	]);
-var _id3as$elm_spa_template$Main$tabInfos = A2(
-	_elm_lang$core$List$map,
-	function (_) {
-		return _.info;
-	},
-	_id3as$elm_spa_template$Main$tabList);
-var _id3as$elm_spa_template$Main$tabInfoArray = _elm_lang$core$Array$fromList(_id3as$elm_spa_template$Main$tabInfos);
-var _id3as$elm_spa_template$Main$model = {mdl: _debois$elm_mdl$Material$model, selectedTab: 0, desiredTab: 0, userAuth: _id3as$elm_spa_template$Auth$none, tabPuppies: _id3as$elm_spa_template$Tabs_Puppies$model, tabTables: _id3as$elm_spa_template$Tabs_Tables$model, tabLogon: _id3as$elm_spa_template$Tabs_Logon$model, tabRegister: _id3as$elm_spa_template$Tabs_Register$model, tabMonitoring: _id3as$elm_spa_template$Tabs_Monitoring$model, tabInfoArray: _id3as$elm_spa_template$Main$tabInfoArray};
-var _id3as$elm_spa_template$Main$infoForTab = function (tab) {
-	return A2(
-		_elm_lang$core$Maybe$withDefault,
-		_id3as$elm_spa_template$Main$logonTabInfo,
-		A2(_elm_lang$core$Array$get, tab, _id3as$elm_spa_template$Main$tabInfoArray));
-};
-var _id3as$elm_spa_template$Main$tabTitles = A2(
-	_elm_lang$core$List$map,
-	function (_) {
-		return _.tabName;
-	},
-	_id3as$elm_spa_template$Main$tabInfos);
 var _id3as$elm_spa_template$Main$update = F2(
 	function (msg, model) {
-		var _p4 = msg;
-		switch (_p4.ctor) {
+		var _p5 = msg;
+		switch (_p5.ctor) {
 			case 'SelectTab':
-				var _p6 = _p4._0;
-				var requiredRole = function (_) {
-					return _.requiredRole;
-				}(
-					_id3as$elm_spa_template$Main$infoForTab(_p6));
-				if (_elm_lang$core$Native_Utils.eq(requiredRole, _id3as$elm_spa_template$Auth$None)) {
-					return {
-						ctor: '_Tuple2',
-						_0: _elm_lang$core$Native_Utils.update(
-							model,
-							{selectedTab: _p6, desiredTab: _p6}),
-						_1: _elm_lang$core$Platform_Cmd$none
-					};
-				} else {
-					var _p5 = A2(_elm_lang$core$List$member, requiredRole, model.userAuth.roles);
-					if (_p5 === true) {
-						return {
-							ctor: '_Tuple2',
-							_0: _elm_lang$core$Native_Utils.update(
-								model,
-								{selectedTab: _p6, desiredTab: _p6}),
-							_1: _elm_lang$core$Platform_Cmd$none
-						};
-					} else {
-						return {
-							ctor: '_Tuple2',
-							_0: _elm_lang$core$Native_Utils.update(
-								model,
-								{
-									selectedTab: A2(
-										_elm_lang$core$Maybe$withDefault,
-										0,
-										A2(_id3as$elm_spa_template$Utils$indexOf, 'Logon', _id3as$elm_spa_template$Main$tabTitles)),
-									desiredTab: _p6
-								}),
-							_1: _elm_lang$core$Platform_Cmd$none
-						};
-					}
-				}
+				var _p6 = _p5._0;
+				return _id3as$elm_spa_template$Main$isAuthenticated(model) ? {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{selectedTab: _p6 + 2, desiredTab: _p6 + 2}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				} : {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							selectedTab: (_elm_lang$core$Native_Utils.cmp(_p6, 2) < 0) ? _p6 : 0,
+							desiredTab: _p6
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
 			case 'LogonMsg':
-				var _p9 = _p4._0;
+				var _p9 = _p5._0;
 				var _p7 = A2(_id3as$elm_spa_template$Main$rememberAuthAndMaybeChangeTabs, _p9, model);
 				var ourModel = _p7._0;
 				var ourCommand = _p7._1;
@@ -17001,7 +16899,7 @@ var _id3as$elm_spa_template$Main$update = F2(
 							ourCommand
 						]));
 			case 'RegisterMsg':
-				var _p10 = A2(_id3as$elm_spa_template$Tabs_Register$update, _p4._0, model.tabRegister);
+				var _p10 = A2(_id3as$elm_spa_template$Tabs_Register$update, _p5._0, model.tabRegister);
 				var newChildModel = _p10._0;
 				var newChildCommand = _p10._1;
 				return {
@@ -17019,16 +16917,16 @@ var _id3as$elm_spa_template$Main$update = F2(
 					_elm_lang$core$Platform_Cmd_ops['!'],
 					_elm_lang$core$Native_Utils.update(
 						model,
-						{userAuth: _id3as$elm_spa_template$Auth$none, tabLogon: newChildModel}),
+						{username: _elm_lang$core$Maybe$Nothing, authToken: _elm_lang$core$Maybe$Nothing, tabLogon: newChildModel}),
 					_elm_lang$core$Native_List.fromArray(
 						[
 							_id3as$elm_spa_template$Utils$msg2cmd(
 							_id3as$elm_spa_template$Main$SelectTab(2))
 						]));
 			case 'Mdl':
-				return A2(_debois$elm_mdl$Material$update, _p4._0, model);
+				return A2(_debois$elm_mdl$Material$update, _p5._0, model);
 			case 'TablesMsg':
-				var _p12 = A2(_id3as$elm_spa_template$Tabs_Tables$update, _p4._0, model.tabTables);
+				var _p12 = A2(_id3as$elm_spa_template$Tabs_Tables$update, _p5._0, model.tabTables);
 				var newChildModel = _p12._0;
 				var newChildCommand = _p12._1;
 				return {
@@ -17052,10 +16950,10 @@ var _id3as$elm_spa_template$Main$update = F2(
 						}),
 					_id3as$elm_spa_template$Main$PuppiesMsg,
 					_id3as$elm_spa_template$Tabs_Puppies$update,
-					_p4._0,
+					_p5._0,
 					model);
 			default:
-				var _p13 = A2(_id3as$elm_spa_template$Tabs_Monitoring$update, _p4._0, model.tabMonitoring);
+				var _p13 = A2(_id3as$elm_spa_template$Tabs_Monitoring$update, _p5._0, model.tabMonitoring);
 				var newChildModel = _p13._0;
 				var newChildCommand = _p13._1;
 				return {
@@ -17067,7 +16965,82 @@ var _id3as$elm_spa_template$Main$update = F2(
 				};
 		}
 	});
-var _id3as$elm_spa_template$Main$tabTitlesHTML = A2(_elm_lang$core$List$map, _elm_lang$html$Html$text, _id3as$elm_spa_template$Main$tabTitles);
+var _id3as$elm_spa_template$Main$tabList = _elm_lang$core$Native_List.fromArray(
+	[
+		{info: _id3as$elm_spa_template$Main$logonTabInfo, tabViewMap: _id3as$elm_spa_template$Main$logonTabViewMap},
+		{info: _id3as$elm_spa_template$Main$registerTabInfo, tabViewMap: _id3as$elm_spa_template$Main$registerTabViewMap},
+		{
+		info: {tabName: 'Tables', tabUrl: 'tables', onlyForAuthenticated: false},
+		tabViewMap: _id3as$elm_spa_template$Main$tableTabViewMap
+	},
+		{
+		info: {tabName: 'Puppies', tabUrl: 'puppies', onlyForAuthenticated: false},
+		tabViewMap: function (_p14) {
+			return A2(
+				_elm_lang$html$Html_App$map,
+				_id3as$elm_spa_template$Main$PuppiesMsg,
+				_id3as$elm_spa_template$Tabs_Puppies$view(
+					function (_) {
+						return _.tabPuppies;
+					}(_p14)));
+		}
+	},
+		{
+		info: {tabName: 'Monitoring', tabUrl: 'monitoring', onlyForAuthenticated: false},
+		tabViewMap: function (_p15) {
+			return A2(
+				_elm_lang$html$Html_App$map,
+				_id3as$elm_spa_template$Main$MonitoringMsg,
+				_id3as$elm_spa_template$Tabs_Monitoring$view(
+					function (_) {
+						return _.tabMonitoring;
+					}(_p15)));
+		}
+	}
+	]);
+var _id3as$elm_spa_template$Main$tabInfos = A2(
+	_elm_lang$core$List$map,
+	function (_) {
+		return _.info;
+	},
+	_id3as$elm_spa_template$Main$tabList);
+var _id3as$elm_spa_template$Main$tabInfoArray = _elm_lang$core$Array$fromList(_id3as$elm_spa_template$Main$tabInfos);
+var _id3as$elm_spa_template$Main$model = {mdl: _debois$elm_mdl$Material$model, selectedTab: 0, desiredTab: 0, username: _elm_lang$core$Maybe$Nothing, authToken: _elm_lang$core$Maybe$Nothing, tabPuppies: _id3as$elm_spa_template$Tabs_Puppies$model, tabTables: _id3as$elm_spa_template$Tabs_Tables$model, tabLogon: _id3as$elm_spa_template$Tabs_Logon$model, tabRegister: _id3as$elm_spa_template$Tabs_Register$model, tabMonitoring: _id3as$elm_spa_template$Tabs_Monitoring$model, tabInfoArray: _id3as$elm_spa_template$Main$tabInfoArray};
+var _id3as$elm_spa_template$Main$infoForTab = function (tab) {
+	return A2(
+		_elm_lang$core$Maybe$withDefault,
+		_id3as$elm_spa_template$Main$logonTabInfo,
+		A2(_elm_lang$core$Array$get, tab, _id3as$elm_spa_template$Main$tabInfoArray));
+};
+var _id3as$elm_spa_template$Main$tabTitlesAll = function () {
+	var forAll = function (x) {
+		return _elm_lang$core$Native_Utils.eq(x.onlyForAuthenticated, false);
+	};
+	var filtered = A2(_elm_lang$core$List$filter, forAll, _id3as$elm_spa_template$Main$tabInfos);
+	return A2(
+		_elm_lang$core$List$map,
+		function (_) {
+			return _.tabName;
+		},
+		filtered);
+}();
+var _id3as$elm_spa_template$Main$tabTitlesForAuthenticated = function () {
+	var filtered = A2(
+		_elm_lang$core$List$filter,
+		function (_) {
+			return _.onlyForAuthenticated;
+		},
+		_id3as$elm_spa_template$Main$tabInfos);
+	return A2(
+		_elm_lang$core$List$map,
+		function (_) {
+			return _.tabName;
+		},
+		filtered);
+}();
+var _id3as$elm_spa_template$Main$tabTitlesHTML = function (model) {
+	return _id3as$elm_spa_template$Main$isAuthenticated(model) ? A2(_elm_lang$core$List$map, _elm_lang$html$Html$text, _id3as$elm_spa_template$Main$tabTitlesAll) : A2(_elm_lang$core$List$map, _elm_lang$html$Html$text, _id3as$elm_spa_template$Main$tabTitlesForAuthenticated);
+};
 var _id3as$elm_spa_template$Main$tabUrls = _elm_lang$core$Array$fromList(
 	A2(
 		_elm_lang$core$List$map,
@@ -17092,13 +17065,6 @@ var _id3as$elm_spa_template$Main$delta2url = F2(
 				url: _id3as$elm_spa_template$Main$urlOf(model2)
 			}) : _elm_lang$core$Maybe$Nothing;
 	});
-var _id3as$elm_spa_template$Main$tabPermissions = _elm_lang$core$Array$fromList(
-	A2(
-		_elm_lang$core$List$map,
-		function (_) {
-			return _.requiredRole;
-		},
-		_id3as$elm_spa_template$Main$tabInfos));
 var _id3as$elm_spa_template$Main$urlTabs = _elm_lang$core$Dict$fromList(
 	A2(
 		_elm_lang$core$List$indexedMap,
@@ -17117,15 +17083,15 @@ var _id3as$elm_spa_template$Main$location2messages = function (location) {
 	return _elm_lang$core$Native_List.fromArray(
 		[
 			function () {
-			var _p14 = A2(_elm_lang$core$String$dropLeft, 1, location.hash);
-			if (_p14 === '') {
+			var _p16 = A2(_elm_lang$core$String$dropLeft, 1, location.hash);
+			if (_p16 === '') {
 				return _id3as$elm_spa_template$Main$SelectTab(0);
 			} else {
 				return _id3as$elm_spa_template$Main$SelectTab(
 					A2(
 						_elm_lang$core$Maybe$withDefault,
 						-1,
-						A2(_elm_lang$core$Dict$get, _p14, _id3as$elm_spa_template$Main$urlTabs)));
+						A2(_elm_lang$core$Dict$get, _p16, _id3as$elm_spa_template$Main$urlTabs)));
 			}
 		}()
 		]);
@@ -17141,7 +17107,7 @@ var _id3as$elm_spa_template$Main$Mdl = function (a) {
 	return {ctor: 'Mdl', _0: a};
 };
 var _id3as$elm_spa_template$Main$addLogoutButtonIfLogged = function (model) {
-	return (!_elm_lang$core$Native_Utils.eq(model.userAuth, _id3as$elm_spa_template$Auth$none)) ? A5(
+	return _id3as$elm_spa_template$Main$isAuthenticated(model) ? A5(
 		_debois$elm_mdl$Material_Button$render,
 		_id3as$elm_spa_template$Main$Mdl,
 		_elm_lang$core$Native_List.fromArray(
@@ -17199,6 +17165,7 @@ var _id3as$elm_spa_template$Main$header = function (model) {
 		]);
 };
 var _id3as$elm_spa_template$Main$view = function (model) {
+	var tabsToShow = _id3as$elm_spa_template$Main$tabTitlesHTML(model);
 	var currentTab = A2(
 		_elm_lang$core$Maybe$withDefault,
 		_id3as$elm_spa_template$Main$e404,
@@ -17223,7 +17190,7 @@ var _id3as$elm_spa_template$Main$view = function (model) {
 					[]),
 				tabs: {
 					ctor: '_Tuple2',
-					_0: _id3as$elm_spa_template$Main$tabTitlesHTML,
+					_0: tabsToShow,
 					_1: _elm_lang$core$Native_List.fromArray(
 						[
 							_debois$elm_mdl$Material_Color$background(

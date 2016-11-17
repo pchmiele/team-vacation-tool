@@ -13,9 +13,17 @@ Vacation planning tool for teams
 6. Install dependencies: 
 
 ```bash
-    npm install
     mix deps.get
+    npm install
 ```
+
+Beacause of problem in babel-preset-react and babel-preset-es2015 modules you also have to run:
+
+```
+    npm install babel-preset-es2015 --save
+    npm install babel-preset-react --save
+```
+
 7. Create and update database:
 
 ``` 

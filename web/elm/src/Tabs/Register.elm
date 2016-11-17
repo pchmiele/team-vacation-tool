@@ -33,7 +33,7 @@ checkCredentials : String -> String -> Cmd Msg
 checkCredentials username password =
     let
         registerTask = httpCheckCredentials' username password
-    in
+    in            
         Task.perform RegisterFailed RegisterSucceed registerTask
 
 httpCheckCredentials' : String -> String -> Task.Task Http.Error Register.RegisterResponse
@@ -132,14 +132,14 @@ view isRedirect targetTabName model =
                     , ( "color", "#636363" )
                     ]
                 ]
-                [ text "Logon" ]
+                [ text "Register" ]
             , h3
                 [ style
                     [ ( "font-weight", "300" )
                     , ( "color", "#4a89dc" )
                     ]
                 ]
-                [ text "Maintenance Tool in ELM" ]
+                [ text "Team Vacation Tool" ]
             ]
         , renderForm isRedirect targetTabName model
         ]
@@ -163,10 +163,7 @@ renderForm isRedirect targetTabName model =
             [ Options.center ]
             [ if isRedirect then
                 div []
-                    [ text <|
-                        "In order to access the "
-                            ++ targetTabName
-                            ++ " tab, you need to logon as an admin "
+                    [ text <| ""
                     , hr [] []
                     ]
                 else
@@ -206,7 +203,6 @@ renderForm isRedirect targetTabName model =
                 model.mdl
                 [ Button.raised
                 , Button.colored
-                , Button.onClick CheckCredentials
                 ]
                 [ text "Register" ]
             ]
@@ -220,8 +216,11 @@ encodeRegisterRequest : String -> String -> String
 encodeRegisterRequest email password =
     JS.encode 0 <|
         JS.object
-            [ ( "email", JS.string email )
-            , ( "password", JS.string password )
+            [ 
+                ( "user", JS.object 
+                [ ( "email", JS.string email )
+                , ( "password", JS.string password )
+                ])
             ]
 
 

@@ -19,7 +19,7 @@
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "babel-brunch": "~6.0.0",
-    "brunch": "2.7.4",
+    "brunch": "~2.8.2",
     "clean-css-brunch": "~2.0.0",
     "css-brunch": "~2.0.0",
     "elm": "^0.17.0",
