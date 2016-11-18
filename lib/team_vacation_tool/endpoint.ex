@@ -38,5 +38,7 @@ defmodule TeamVacationTool.Endpoint do
     key: "_team_vacation_tool_key",
     signing_salt: "3oRJ4YAh"
 
+  plug CORSPlug
+
   plug TeamVacationTool.Router
 end

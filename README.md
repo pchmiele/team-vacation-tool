@@ -13,20 +13,34 @@ Vacation planning tool for teams
 6. Install dependencies: 
 
 ```bash
-    npm install
     mix deps.get
+    npm install
 ```
 
-7. Verify if everything is ok. Tests should pass:
+Beacause of problem in babel-preset-react and babel-preset-es2015 modules you also have to run:
+
+```
+    npm install babel-preset-es2015 --save
+    npm install babel-preset-react --save
+```
+
+7. Create and update database:
+
+``` 
+    mix ecto.create # Run only if it is your first time. This command will create new database.
+    mix ecto.migrate
+```
+
+8. Verify if everything is ok. Tests should pass:
 ```
     mix test
 ```
 
-8. Start server:
+9. Start server:
 ```
     iex -S mix phoenix.server
 ```
 
-9. Open http://localhost:4000/ in browser
-10. If everything is ok you should see:
-![Img](.\docs\main.png)
+10. Open http://localhost:4000/ in browser
+11. If everything is ok you should see:
+![Img](https://github.com/pchmiele/team_vacation_tool/blob/master/docs/main.png)

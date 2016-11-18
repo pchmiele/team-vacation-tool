@@ -9,6 +9,9 @@ config :team_vacation_tool, TeamVacationTool.Endpoint,
 # Print only warnings and errors during test
 config :logger, level: :warn
 
+config :comeonin, :bcrypt_log_rounds, 4
+config :comeonin, :pbkdf2_rounds, 1
+
 # Configure your database
 config :team_vacation_tool, TeamVacationTool.Repo,
   adapter: Ecto.Adapters.Postgres,

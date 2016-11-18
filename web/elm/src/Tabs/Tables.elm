@@ -12,7 +12,7 @@ main : Program Never
 main =
     App.program
         { init = ( model, Cmd.none )
-        , view = view Auth.none
+        , view = view
         , subscriptions = always Sub.none
         , update = update
         }
@@ -105,8 +105,8 @@ reverse x y =
             EQ
 
 
-view : Auth.UserAuth -> Model -> Html Msg
-view authdetails model =
+view : Model -> Html Msg
+view model =
     let
         sort =
             case model.order of

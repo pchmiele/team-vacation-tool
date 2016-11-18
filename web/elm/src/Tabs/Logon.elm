@@ -20,62 +20,42 @@ main : Program Never
 main =
     App.program
         { init = ( model, Cmd.none )
-        , view = view False "" Auth.None
+        , view = view False ""
         , subscriptions = always Sub.none
         , update = update
         }
 
 
-
 -- CheckCredentials
 
+toAuthInfo : String -> Auth.Response -> Auth.Info
+toAuthInfo username response =
+    Auth.Info username response.data.token
 
-checkCredentials : Bool -> String -> String -> Cmd Msg
-checkCredentials fakeAuth username password =
+checkCredentials : String -> String -> Cmd Msg
+checkCredentials username password =
     let
-        authTask =
-            case fakeAuth of
-                True ->
-                    fakeCheckCredentials username password
-
-                False ->
-                    httpCheckCredentials' username password
+        authTask = httpCheckCredentials' username password
     in
         Task.perform PostFail PostSucceed authTask
 
 
-fakeCheckCredentials : String -> String -> Task.Task Http.Error Auth.UserAuth
-fakeCheckCredentials username password =
-    let
-        userAuth =
-            case username of
-                "user" ->
-                    Auth.UserAuth username "123" [ Auth.User ]
-
-                "admin" ->
-                    Auth.UserAuth username "456" [ Auth.User, Auth.Admin ]
-
-                _ ->
-                    Auth.none
-    in
-        Task.succeed userAuth
-
-
-httpCheckCredentials' : String -> String -> Task.Task Http.Error Auth.UserAuth
+httpCheckCredentials' : String -> String -> Task.Task Http.Error Auth.Info
 httpCheckCredentials' username password =
-    Http.send Http.defaultSettings
-        { verb = "POST"
-        , headers =
-            [ ( "Content-Type", "application/json" )
-            , ( "Accept", "application/json" )
-            ]
-        , url = "http://127.0.0.1:3001/users/logon"
-        , body =
-            Http.string <| encodeAuthRequest username password
-        }
-        |> Http.fromJson decodeAuthResponse
-
-
+    let 
+        response = Http.send Http.defaultSettings
+            { verb = "POST"
+            , headers =
+                [ ( "Content-Type", "application/json" )
+                , ( "Accept", "application/json" )
+                ]
+            , url = "http://127.0.0.1:4000/api/sessions"
+            , body =
+                Http.string <| encodeAuthRequest username password
+            }
+            |> Http.fromJson decodeAuthResponse
+    in
+        Task.map (toAuthInfo username) response
 
 -- Model
 
@@ -83,7 +63,6 @@ httpCheckCredentials' username password =
 type alias Model =
     { username : String
     , password : String
-    , fakeAuth : Bool
     , authFailed : Bool
     , authorized : Bool
     , mdl : Material.Model
@@ -92,9 +71,8 @@ type alias Model =
 
 model : Model
 model =
-    { username = "admin"
+    { username = ""
     , password = ""
-    , fakeAuth = True
     , authFailed = False
     , authorized = False
     , mdl = Material.model
@@ -110,7 +88,7 @@ type Msg
     | PasswordChange String
     | UsernameChange String
     | MDL (Material.Msg Msg)
-    | PostSucceed Auth.UserAuth
+    | PostSucceed Auth.Info
     | PostFail Http.Error
     | LoggedOut
 
@@ -119,7 +97,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         CheckCredentials ->
-            ( model, checkCredentials model.fakeAuth model.username model.password )
+            ( model, checkCredentials model.username model.password )
 
         PasswordChange newPassword ->
             ( { model | password = newPassword }, Cmd.none )
@@ -144,8 +122,8 @@ update msg model =
 -- VIEW
 
 
-view : Bool -> String -> Auth.Role -> Model -> Html Msg
-view isRedirect targetTabName requiredRole model =
+view : Bool -> String -> Model -> Html Msg
+view isRedirect targetTabName model =
     Options.div [ Options.css "margin-left" "20px" ]
         [ header
             [ style
@@ -168,12 +146,12 @@ view isRedirect targetTabName requiredRole model =
                 ]
                 [ text "Maintenance Tool in ELM" ]
             ]
-        , renderFormIfNotLogged isRedirect targetTabName requiredRole model
+        , renderFormIfNotLogged isRedirect targetTabName model
         ]
 
 
-renderFormIfNotLogged : Bool -> String -> Auth.Role -> Model -> Html Msg
-renderFormIfNotLogged isRedirect targetTabName requiredRole model =
+renderFormIfNotLogged : Bool -> String -> Model -> Html Msg
+renderFormIfNotLogged isRedirect targetTabName model =
     if not model.authorized then
         Html.form [ formCss, onSubmit CheckCredentials ]
             [ Options.div
@@ -195,7 +173,6 @@ renderFormIfNotLogged isRedirect targetTabName requiredRole model =
                             "In order to access the "
                                 ++ targetTabName
                                 ++ " tab, you need to logon as a user in the "
-                                ++ (toString requiredRole)
                                 ++ " role."
                         , hr [] []
                         ]
@@ -236,7 +213,6 @@ renderFormIfNotLogged isRedirect targetTabName requiredRole model =
                     model.mdl
                     [ Button.raised
                     , Button.colored
-                    , Button.onClick CheckCredentials
                     ]
                     [ text "Login" ]
                 ]
@@ -248,7 +224,7 @@ renderFormIfNotLogged isRedirect targetTabName requiredRole model =
                 , ( "margin-top", "1em" )
                 ]
             ]
-            [ text "Successfuly logged, welcome!" ]
+            [ text "Successfuly logged in, welcome!" ]
 
 
 
@@ -256,40 +232,26 @@ renderFormIfNotLogged isRedirect targetTabName requiredRole model =
 
 
 encodeAuthRequest : String -> String -> String
-encodeAuthRequest username password =
+encodeAuthRequest email password =
     JS.encode 0 <|
         JS.object
-            [ ( "username", JS.string username )
-            , ( "password", JS.string password )
+            [ 
+                ( "user", JS.object 
+                [ ( "email", JS.string email )
+                , ( "password", JS.string password )
+                ])
             ]
 
-
-decodeAuthResponse : Json.Decoder Auth.UserAuth
+decodeAuthResponse : Json.Decoder Auth.Response
 decodeAuthResponse =
-    JsonPipeline.decode Auth.UserAuth
-        |> JsonPipeline.required "username" Json.string
-        |> JsonPipeline.required "sessionId" Json.string
-        |> JsonPipeline.required "roles" (Json.list decodeRole)
+        JsonPipeline.decode Auth.Response
+            |> JsonPipeline.required "data" decodeAuthData
 
-
-decodeRole : Json.Decoder Auth.Role
-decodeRole =
-    Json.map strToRole Json.string
-
-
-strToRole : String -> Auth.Role
-strToRole str =
-    case str of
-        "admin" ->
-            Auth.Admin
-
-        "user" ->
-            Auth.User
-
-        _ ->
-            Auth.None
-
-
+decodeAuthData : Json.Decoder Auth.Data
+decodeAuthData =
+    JsonPipeline.decode Auth.Data
+        |> JsonPipeline.required "token" Json.string
+        
 formCss =
     style
         [ ( "width", "380px" )
