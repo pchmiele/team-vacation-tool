@@ -177,6 +177,7 @@ type alias Tab =
 
 tabList : List Tab
 tabList =
+    [ { info = logonTabInfo, tabViewMap = logonTabViewMap }
     , { info = registerTabInfo, tabViewMap = registerTabViewMap }
     , { info = { tabName = "Tables", tabUrl = "tables", onlyForAuthenticated = False}, tabViewMap = tableTabViewMap }
     , { info = { tabName = "Puppies", tabUrl = "puppies", onlyForAuthenticated = False}, tabViewMap = .tabPuppies >> Tabs.Puppies.view >> App.map PuppiesMsg }
