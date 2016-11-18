@@ -9,7 +9,7 @@ import Date.Extra as Date exposing (Interval(Year, Month, Day))
 import DateSelectorDropdown
 import Task
 import Time exposing (Time)
-import Utils exposing (debugDumpModel)
+import Material.Options as Options exposing (nop)
 
 
 main : Program Never
@@ -66,7 +66,14 @@ update msg model =
         Select dateField date ->
             case dateField of
                 From ->
-                    { model | from = date } ! []
+                    let
+                        newFrom =
+                            date
+
+                        newTo =
+                            calculateNewTo model.to date
+                    in
+                        { model | from = newFrom, to = newTo } ! []
 
                 To ->
                     { model | to = date } ! []
@@ -85,7 +92,7 @@ update msg model =
                 currentDate =
                     (Date.fromTime time)
             in
-                { model | today = currentDate, to = currentDate, from = currentDate } ! []
+                { model | today = currentDate, to = (Date.add Day 1 currentDate), from = currentDate } ! []
 
         GetTimeFailure msg ->
             model ! []
@@ -93,31 +100,33 @@ update msg model =
 
 view : Model -> Html Msg
 view { mdl, today, from, to, openDateField } =
-    div
-        []
-        [ Html.node "style"
+    Options.div
+        [ Options.center ]
+        [ div
             []
-            [ text <| "@import url(../css/date-selector.css);"
-            ]
-        , div
-            [ class "columns" ]
-            [ div []
-                [ label [] [ text "From" ]
-                , viewDateSelector From
-                    openDateField
-                    (Date.add Year -10 today)
-                    to
-                    (Just from)
+            [ Html.node "style"
+                []
+                [ text <| "@import url(../css/date-selector.css);"
                 ]
-            , div []
-                [ label [] [ text "To" ]
-                , viewDateSelector To
-                    openDateField
-                    from
-                    (Date.add Year 1 today)
-                    (Just to)
+            , div
+                [ class "columns" ]
+                [ div []
+                    [ label [] [ text "From" ]
+                    , viewDateSelector From
+                        openDateField
+                        today
+                        (Date.add Year 1 today)
+                        (Just from)
+                    ]
+                , div []
+                    [ label [] [ text "To" ]
+                    , viewDateSelector To
+                        openDateField
+                        (Date.add Day 1 from)
+                        (Date.add Year 1 from)
+                        (Just to)
+                    ]
                 ]
-            , debugDumpModel model
             ]
         ]
 
@@ -141,3 +150,11 @@ viewDateSelector dateField openDateField =
 getCurrentTime : Cmd Msg
 getCurrentTime =
     Task.perform GetTimeFailure GetTimeSuccess Time.now
+
+
+calculateNewTo : Date -> Date -> Date
+calculateNewTo oldTo newFrom =
+    if Date.toTime newFrom > Date.toTime oldTo then
+        (Date.add Day 1 newFrom)
+    else
+        oldTo

@@ -115,11 +115,8 @@ update msg model =
                 let
                     ( newChildModel, newChildCommand ) =
                         Tabs.Logon.update childMsg ourModel.tabLogon
-
-                    ( secondChildModel, secondChildCommand ) =
-                        Tabs.Monitoring.update GetTime ourModel.tabMonitoring
                 in
-                    { ourModel | tabLogon = newChildModel, tabMonitoring = secondChildModel } ! [ (Cmd.map LogonMsg newChildCommand), (Cmd.map MonitoringMsg secondChildCommand), ourCommand ]
+                    { ourModel | tabLogon = newChildModel } ! [ (Cmd.map LogonMsg newChildCommand), ourCommand ]
 
         LogoutMsg ->
             let
@@ -414,7 +411,7 @@ main =
                        document.getElementsByClassName("mdl-layout__tab-bar")[0].scrollWidth
                     -}
               }
-            , Material.init Mdl
+            , Utils.msg2cmd (MonitoringMsg GetTime)
             )
         , view = view
         , subscriptions = \model -> Sub.none
