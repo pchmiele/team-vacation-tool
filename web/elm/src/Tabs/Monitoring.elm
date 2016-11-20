@@ -106,7 +106,7 @@ view { mdl, today, from, to, openDateField } =
             []
             [ Html.node "style"
                 []
-                [ text <| "@import url(../css/date-selector.css);"
+                [ text <| "@import url(css/app.css);"
                 ]
             , div
                 [ class "columns" ]

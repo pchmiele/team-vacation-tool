@@ -144,7 +144,6 @@ view isRedirect targetTabName model =
         , renderForm isRedirect targetTabName model
         ]
 
-
 renderForm : Bool -> String -> Model -> Html Msg
 renderForm isRedirect targetTabName model =
     Html.form [ formCss, onSubmit CheckCredentials ]
@@ -152,11 +151,10 @@ renderForm isRedirect targetTabName model =
             [ Options.center ]
             [ if model.authFailed then
                 div []
-                    [ text <|
-                        "Access denied, invalid credentials"
+                    [ text <| "Access denied, invalid credentials"
                     , hr [] []
                     ]
-                else
+              else
                 text ""
             ]
         , Options.div
@@ -166,7 +164,7 @@ renderForm isRedirect targetTabName model =
                     [ text <| ""
                     , hr [] []
                     ]
-                else
+              else
                 text ""
             ]
         , Options.div
@@ -227,7 +225,13 @@ encodeRegisterRequest email password =
 decodeRegisterResponse : Json.Decoder Register.RegisterResponse
 decodeRegisterResponse =
     JsonPipeline.decode Register.RegisterResponse
-        |> JsonPipeline.required "id" Json.string
+        |> JsonPipeline.required "data" decodeRegisterData
+
+
+decodeRegisterData : Json.Decoder Register.Data
+decodeRegisterData =
+    JsonPipeline.decode Register.Data
+        |> JsonPipeline.required "id" Json.int
         |> JsonPipeline.required "email" Json.string
 
 formCss =
