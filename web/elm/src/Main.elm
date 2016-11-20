@@ -16,6 +16,7 @@ import Tabs.Puppies
 import Tabs.Tables
 import Tabs.Logon
 import Tabs.Monitoring
+import Tabs.Monitoring as GetTime exposing (Msg(GetTime))
 import Tabs.Register
 import Array exposing (Array)
 import Dict exposing (Dict)
@@ -180,7 +181,7 @@ tabList =
     , { info = registerTabInfo, tabViewMap = registerTabViewMap }
     , { info = { tabName = "Tables", tabUrl = "tables", onlyForAuthenticated = False}, tabViewMap = tableTabViewMap }
     , { info = { tabName = "Puppies", tabUrl = "puppies", onlyForAuthenticated = False}, tabViewMap = .tabPuppies >> Tabs.Puppies.view >> App.map PuppiesMsg }
-    , { info = { tabName = "Monitoring", tabUrl = "monitoring" , onlyForAuthenticated = False}, tabViewMap = .tabMonitoring >> Tabs.Monitoring.view >> App.map MonitoringMsg }
+    , { info = { tabName = "Monitoring", tabUrl = "monitoring" , onlyForAuthenticated = False}, tabViewMap = .monitoringTabViewMap }
     ]
 
 logonTabInfo : TabInfo
@@ -220,6 +221,11 @@ registerTabViewMap model =
 tableTabViewMap : Model -> Html Msg
 tableTabViewMap model =
     Tabs.Tables.view model.tabTables |> App.map TablesMsg
+
+
+monitoringTabViewMap : Model -> Html Msg
+monitoringTabViewMap model =
+    Tabs.Monitoring.view model.tabMonitoring |> App.map MonitoringMsg
 
 
 
@@ -405,7 +411,7 @@ main =
                 | mdl =
                     Layout.setTabsWidth 2124 model.mdl
               }
-            , Material.init Mdl
+            , Utils.msg2cmd (MonitoringMsg GetTime)
             )
         , view = view
         , subscriptions = \model -> Sub.none
