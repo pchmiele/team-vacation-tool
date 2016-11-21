@@ -12,7 +12,6 @@ import Material.Layout as Layout
 import Material.Helpers exposing (lift)
 import Navigation
 import RouteUrl as Routing
-import Tabs.Puppies
 import Tabs.Tables
 import Tabs.Logon
 import Tabs.Monitoring
@@ -31,7 +30,6 @@ type alias Model =
     , username : Maybe String
     , authToken : Maybe String
     , desiredTab : Int
-    , tabPuppies : Tabs.Puppies.Model
     , tabTables : Tabs.Tables.Model
     , tabLogon : Tabs.Logon.Model
     , tabRegister: Tabs.Register.Model
@@ -48,7 +46,6 @@ model =
     , desiredTab = 0
     , username = Nothing
     , authToken = Nothing
-    , tabPuppies = Tabs.Puppies.model
     , tabTables = Tabs.Tables.model
     , tabLogon = Tabs.Logon.model
     , tabRegister = Tabs.Register.model
@@ -62,7 +59,6 @@ model =
 
 type Msg
     = Mdl (Material.Msg Msg)
-    | PuppiesMsg Tabs.Puppies.Msg
     | TablesMsg Tabs.Tables.Msg
     | MonitoringMsg Tabs.Monitoring.Msg
     | LogonMsg Tabs.Logon.Msg
@@ -112,7 +108,7 @@ update msg model =
                 ( newChildModel, newChildCommand ) =
                     Tabs.Logon.update Tabs.Logon.LoggedOut Tabs.Logon.model
             in
-                { model | username = Nothing, authToken = Nothing, tabLogon = newChildModel } ! [ Utils.msg2cmd (SelectTab 2) ]
+                { model | username = Nothing, authToken = Nothing, tabLogon = newChildModel } ! [ Utils.msg2cmd (SelectTab 0) ]
 
         Mdl msg' ->
             Material.update msg' model
@@ -123,9 +119,6 @@ update msg model =
                     Tabs.Tables.update childMsg model.tabTables
             in
                 ( { model | tabTables = newChildModel }, Cmd.map TablesMsg newChildCommand )
-
-        PuppiesMsg childMsg ->
-            lift .tabPuppies (\m childModel -> { m | tabPuppies = childModel }) PuppiesMsg Tabs.Puppies.update childMsg model
 
         MonitoringMsg childMsg ->
             let
@@ -180,8 +173,7 @@ tabList =
     [ { info = logonTabInfo, tabViewMap = logonTabViewMap }
     , { info = registerTabInfo, tabViewMap = registerTabViewMap }
     , { info = { tabName = "Tables", tabUrl = "tables", onlyForAuthenticated = False}, tabViewMap = tableTabViewMap }
-    , { info = { tabName = "Puppies", tabUrl = "puppies", onlyForAuthenticated = False}, tabViewMap = .tabPuppies >> Tabs.Puppies.view >> App.map PuppiesMsg }
-    , { info = { tabName = "Monitoring", tabUrl = "monitoring" , onlyForAuthenticated = False}, tabViewMap = .monitoringTabViewMap }
+    , { info = { tabName = "Monitoring", tabUrl = "monitoring" , onlyForAuthenticated = False}, tabViewMap = monitoringTabViewMap }
     ]
 
 logonTabInfo : TabInfo
@@ -221,7 +213,6 @@ registerTabViewMap model =
 tableTabViewMap : Model -> Html Msg
 tableTabViewMap model =
     Tabs.Tables.view model.tabTables |> App.map TablesMsg
-
 
 monitoringTabViewMap : Model -> Html Msg
 monitoringTabViewMap model =
