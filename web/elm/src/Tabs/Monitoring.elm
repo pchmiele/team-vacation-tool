@@ -3,8 +3,9 @@ module Tabs.Monitoring exposing (Model, model, view, update, Msg(..))
 import Html.App as App
 import Html exposing (..)
 import Material
+import Material.Button as Button
 import Date exposing (Date, Month(..))
-import Html.Attributes exposing (class)
+import Html.Attributes exposing (style, class)
 import Date.Extra as Date exposing (Interval(Year, Month, Day))
 import DateSelectorDropdown
 import Task
@@ -48,11 +49,13 @@ type alias Model =
 
 type Msg
     = Select DateField Date
+    | MDL (Material.Msg Msg)
     | OpenDropdown DateField
     | CloseDropdown
     | GetTime
     | GetTimeSuccess Time
     | GetTimeFailure String
+    | SendHolidayRequest
 
 
 type DateField
@@ -97,13 +100,29 @@ update msg model =
         GetTimeFailure msg ->
             model ! []
 
+        SendHolidayRequest ->
+            let
+                _ =
+                    Debug.log "requested holiday dates: " ( model.from, model.to )
+
+                from =
+                    Date.toTime model.from
+
+                to =
+                    Date.toTime model.to
+            in
+                model ! []
+
+        MDL action' ->
+            Material.update action' model
+
 
 view : Model -> Html Msg
 view { mdl, today, from, to, openDateField } =
     Options.div
         [ Options.center ]
         [ div
-            []
+            [ style [ ( "margin", "4em auto" ) ] ]
             [ Html.node "style"
                 []
                 []
@@ -125,6 +144,18 @@ view { mdl, today, from, to, openDateField } =
                         (Date.add Year 1 from)
                         (Just to)
                     ]
+                ]
+            , Options.div
+                [ Options.center ]
+                [ Button.render MDL
+                    [ 0 ]
+                    model.mdl
+                    [ Button.raised
+                    , Button.colored
+                    , Options.center
+                    , Button.onClick SendHolidayRequest
+                    ]
+                    [ text "Send holiday request" ]
                 ]
             ]
         ]

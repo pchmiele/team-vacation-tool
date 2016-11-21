@@ -366,7 +366,7 @@ getLoggedMsg : Model -> String
 getLoggedMsg model =
     case model.username of
         Just name ->
-            "Logged in as: " ++ (toString model.username)
+            "Logged in as: " ++ (toString name)
 
         Nothing ->
             ""
