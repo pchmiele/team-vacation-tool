@@ -332,7 +332,6 @@ header model =
         , Layout.spacer
         , div []
             [ text (getLoggedMsg model)
-            , Html.br [] []
             , addLogoutButtonIfLogged model
             ]
         ]
@@ -352,12 +351,17 @@ isAuthenticated model =
 addLogoutButtonIfLogged : Model -> Html Msg
 addLogoutButtonIfLogged model =
     if isAuthenticated model then
-        Button.render Mdl
-            [ 0 ]
-            model.mdl
-            [ Button.onClick LogoutMsg
+        Options.div
+            [ Options.center ]
+            [ Button.render
+                Mdl
+                [ 0 ]
+                model.mdl
+                [ Button.ripple
+                , Button.onClick LogoutMsg
+                ]
+                [ text "[ Logout ]" ]
             ]
-            [ text "-> Logout" ]
     else
         div [] []
 
@@ -366,7 +370,7 @@ getLoggedMsg : Model -> String
 getLoggedMsg model =
     case model.username of
         Just name ->
-            "Logged in as: " ++ (toString name)
+            "Logged in as: " ++ name
 
         Nothing ->
             ""
