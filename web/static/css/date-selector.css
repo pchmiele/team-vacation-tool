@@ -44,6 +44,9 @@ Dropdown
 
 .dropdown { display: inline-block; }
 .dropdown--button-container { cursor: default; }
+.dropdown--button-container input {
+    width: 110px;
+}
 
 .dropdown-open { display: inline-block; position: relative; z-index: 1; }
 .dropdown-open .dropdown--button-container  { position: relative; z-index: 1; }

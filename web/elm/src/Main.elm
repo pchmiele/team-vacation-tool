@@ -22,6 +22,7 @@ import Dict exposing (Dict)
 import String
 import Utils
 
+
 -- MODEL
 
 
@@ -32,7 +33,7 @@ type alias Model =
     , desiredTab : Int
     , tabTables : Tabs.Tables.Model
     , tabLogon : Tabs.Logon.Model
-    , tabRegister: Tabs.Register.Model
+    , tabRegister : Tabs.Register.Model
     , tabMonitoring : Tabs.Monitoring.Model
     , tabInfoArray : Array TabInfo
     , mdl : Material.Model
@@ -54,6 +55,7 @@ model =
     }
 
 
+
 -- ACTION, UPDATE
 
 
@@ -66,6 +68,7 @@ type Msg
     | SelectTab Int
     | LogoutMsg
 
+
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
@@ -74,14 +77,18 @@ update msg model =
                 ( { model
                     | selectedTab = tab + 2
                     , desiredTab = tab + 2
-                    }
+                  }
                 , Cmd.none
                 )
             else
                 ( { model
-                    | selectedTab = if tab < 2 then tab else 0
+                    | selectedTab =
+                        if tab < 2 then
+                            tab
+                        else
+                            0
                     , desiredTab = tab
-                    }
+                  }
                 , Cmd.none
                 )
 
@@ -94,7 +101,7 @@ update msg model =
                     ( newChildModel, newChildCommand ) =
                         Tabs.Logon.update childMsg ourModel.tabLogon
                 in
-                    { ourModel | tabLogon = newChildModel } ! [ (Cmd.map LogonMsg newChildCommand), ourCommand ]
+                    { ourModel | tabLogon = newChildModel } ! [ (Cmd.map LogonMsg newChildCommand), Utils.msg2cmd (SelectTab 0), ourCommand ]
 
         RegisterMsg childMsg ->
             let
@@ -158,7 +165,7 @@ type alias ViewFunc =
 type alias TabInfo =
     { tabName : String
     , tabUrl : String
-    , onlyForAuthenticated: Bool
+    , onlyForAuthenticated : Bool
     }
 
 
@@ -172,9 +179,10 @@ tabList : List Tab
 tabList =
     [ { info = logonTabInfo, tabViewMap = logonTabViewMap }
     , { info = registerTabInfo, tabViewMap = registerTabViewMap }
-    , { info = { tabName = "Tables", tabUrl = "tables", onlyForAuthenticated = False}, tabViewMap = tableTabViewMap }
-    , { info = { tabName = "Monitoring", tabUrl = "monitoring" , onlyForAuthenticated = False}, tabViewMap = monitoringTabViewMap }
+    , { info = { tabName = "Tables", tabUrl = "tables", onlyForAuthenticated = False }, tabViewMap = tableTabViewMap }
+    , { info = { tabName = "Monitoring", tabUrl = "monitoring", onlyForAuthenticated = False }, tabViewMap = monitoringTabViewMap }
     ]
+
 
 logonTabInfo : TabInfo
 logonTabInfo =
@@ -193,9 +201,10 @@ logonTabViewMap model =
         in
             .tabLogon model |> viewWithInjectedArgs |> App.map LogonMsg
 
+
 registerTabInfo : TabInfo
 registerTabInfo =
-   { tabName = "Register", tabUrl = "register", onlyForAuthenticated = True }
+    { tabName = "Register", tabUrl = "register", onlyForAuthenticated = True }
 
 
 registerTabViewMap : Model -> Html Msg
@@ -210,9 +219,11 @@ registerTabViewMap model =
         in
             .tabRegister model |> viewWithInjectedArgs |> App.map RegisterMsg
 
+
 tableTabViewMap : Model -> Html Msg
 tableTabViewMap model =
     Tabs.Tables.view model.tabTables |> App.map TablesMsg
+
 
 monitoringTabViewMap : Model -> Html Msg
 monitoringTabViewMap model =
@@ -235,18 +246,24 @@ tabInfoArray =
 
 tabTitlesAll : List String
 tabTitlesAll =
-    let 
-        forAll x = x.onlyForAuthenticated == False
-        filtered = List.filter forAll tabInfos
-    in 
+    let
+        forAll x =
+            x.onlyForAuthenticated == False
+
+        filtered =
+            List.filter forAll tabInfos
+    in
         List.map .tabName filtered
+
 
 tabTitlesForAuthenticated : List String
 tabTitlesForAuthenticated =
-    let 
-        filtered = List.filter .onlyForAuthenticated tabInfos
-    in 
+    let
+        filtered =
+            List.filter .onlyForAuthenticated tabInfos
+    in
         List.map .tabName filtered
+
 
 tabTitlesHTML : Model -> List (Html a)
 tabTitlesHTML model =
@@ -254,6 +271,7 @@ tabTitlesHTML model =
         List.map text tabTitlesAll
     else
         List.map text tabTitlesForAuthenticated
+
 
 infoForTab : Int -> TabInfo
 infoForTab tab =
@@ -263,6 +281,7 @@ infoForTab tab =
 tabUrls : Array String
 tabUrls =
     List.map .tabUrl tabInfos |> Array.fromList
+
 
 tabViews : Array (ViewFunc)
 tabViews =
@@ -288,7 +307,9 @@ view model =
     let
         currentTab =
             (Array.get model.selectedTab tabViews |> Maybe.withDefault e404) model
-        tabsToShow = tabTitlesHTML model
+
+        tabsToShow =
+            tabTitlesHTML model
     in
         Material.Scheme.topWithScheme Color.Teal Color.Red <|
             Layout.render Mdl
@@ -311,38 +332,49 @@ header model =
         , Layout.spacer
         , div []
             [ text (getLoggedMsg model)
-            , Html.br [] []
             , addLogoutButtonIfLogged model
             ]
         ]
     ]
 
-isAuthenticated: Model -> Bool
+
+isAuthenticated : Model -> Bool
 isAuthenticated model =
-    case model.authToken of 
-        Just token -> True
-        Nothing -> False
+    case model.authToken of
+        Just token ->
+            True
+
+        Nothing ->
+            False
 
 
 addLogoutButtonIfLogged : Model -> Html Msg
 addLogoutButtonIfLogged model =
     if isAuthenticated model then
-        Button.render Mdl
-        [ 0 ]
-        model.mdl
-        [ Button.onClick LogoutMsg
-        ]
-        [ text "-> Logout" ]
+        Options.div
+            [ Options.center ]
+            [ Button.render
+                Mdl
+                [ 0 ]
+                model.mdl
+                [ Button.ripple
+                , Button.onClick LogoutMsg
+                ]
+                [ text "[ Logout ]" ]
+            ]
     else
         div [] []
+
 
 getLoggedMsg : Model -> String
 getLoggedMsg model =
     case model.username of
-        Just name -> 
-            "Logged in as: " ++ (toString model.username)
+        Just name ->
+            "Logged in as: " ++ name
+
         Nothing ->
             ""
+
 
 e404 : ViewFunc
 e404 _ =
