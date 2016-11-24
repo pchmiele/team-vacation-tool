@@ -3,7 +3,7 @@ defmodule TeamVacationTool.Resolvers.TeamResolver do
   alias TeamVacationTool.Repo
 
   def all(_parent, _args, _info) do
-    {:ok, Repo.all(Team) }
+    {:ok, Repo.all(Team) |> Repo.preload(:users) }
   end
 
   def find(_parent, %{id: id}, _info) do

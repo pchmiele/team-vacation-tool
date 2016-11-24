@@ -11,7 +11,7 @@ defmodule TeamVacationTool.Resolvers.UserResolver do
   end
 
   def all(_parent, _args, _info) do
-    {:ok, Repo.all(User) }
+    {:ok, Repo.all(User) |> Repo.preload(:team) }
   end
   
 end

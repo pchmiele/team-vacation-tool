@@ -7,23 +7,23 @@ defmodule TeamVacationTool.UserTest do
   @valid_attrs %{email: "bar@baz.com", password: "s3cr3t"}
 
   test "changeset with valid attributes" do
-    changeset = User.changeset(%User{}, @valid_attrs)
+    changeset = User.registration_changeset(%User{}, @valid_attrs)
     assert changeset.valid?
   end
 
   test "changeset, email too short " do
-    changeset = User.changeset(
+    changeset = User.registration_changeset(
       %User{}, Map.put(@valid_attrs, :email, "")
     )
     refute changeset.valid?
   end
 
   test "changeset, email invalid format" do
-    changeset = User.changeset(
+    changeset = User.registration_changeset(
       %User{}, Map.put(@valid_attrs, :email, "foo.com")
     )
     refute changeset.valid?
-  end
+  end 
 
   test "registration_changeset, password ok" do
     changeset = User.registration_changeset(%User{}, @valid_attrs)

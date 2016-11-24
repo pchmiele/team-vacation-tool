@@ -4,7 +4,7 @@ defmodule TeamVacationTool.Schema.Types do
   object :user do
     field :id, :id
     field :email, :string
-    field :teams, :team
+    field :team, :team
   end
 
   object :team do

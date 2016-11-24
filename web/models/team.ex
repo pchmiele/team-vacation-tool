@@ -5,7 +5,7 @@ defmodule TeamVacationTool.Team do
   schema "teams" do
     field :name, :string
 
-    has_many :users, User
+    has_many :users, User, foreign_key: :team_id
 
     timestamps()
   end
