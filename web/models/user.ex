@@ -1,11 +1,12 @@
 defmodule TeamVacationTool.User do
   use TeamVacationTool.Web, :model
-
+  
   schema "users" do
     field :email, :string
     field :encrypted_password, :string
     field :password, :string, virtual: true
 
+    belongs_to :team, Team
     timestamps
   end
 
