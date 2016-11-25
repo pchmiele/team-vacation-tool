@@ -1,4 +1,4 @@
-defmodule TeamVacationTool.Resolvers.TeamResolver do
+defmodule TeamVacationTool.GraphQL.Resolvers.TeamResolver do
   alias TeamVacationTool.Team
   alias TeamVacationTool.Repo
 

@@ -14,16 +14,7 @@ defmodule TeamVacationTool.Router do
   end
 
   pipeline :graphql do
-    plug TeamVacationTool.Context
-    # plug Absinthe.Plug, 
-    #   schema: TeamVacationTool.Schema,
-    #   path: "/graphql"
-
-    # if Mix.env == :dev do
-    #   plug Absinthe.Plug.GraphiQL, 
-    #     schema: TeamVacationTool.Schema,
-    #     path: "/graphiql"
-    # end
+    plug TeamVacationTool.GraphQL.Context
   end
 
   scope "/", TeamVacationTool do
@@ -40,8 +31,8 @@ defmodule TeamVacationTool.Router do
     resources "/teams", TeamController
   end
 
-  get "/graphiql", Absinthe.Plug.GraphiQL, schema: TeamVacationTool.Schema
-  post "/graphiql", Absinthe.Plug.GraphiQL, schema: TeamVacationTool.Schema
-  forward "/graphql", Absinthe.Plug, schema: TeamVacationTool.Schema
+  get "/graphiql", Absinthe.Plug.GraphiQL, schema: TeamVacationTool.GraphQL.Schema
+  post "/graphiql", Absinthe.Plug.GraphiQL, schema: TeamVacationTool.GraphQL.Schema
+  forward "/graphql", Absinthe.Plug, schema: TeamVacationTool.GraphQL.Schema
 
 end

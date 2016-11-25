@@ -1,8 +1,8 @@
-defmodule TeamVacationTool.Schema do
+defmodule TeamVacationTool.GraphQL.Schema do
   use Absinthe.Schema
-  alias TeamVacationTool.Resolvers
+  alias TeamVacationTool.GraphQL.Resolvers
 
-  import_types TeamVacationTool.Schema.Types
+  import_types TeamVacationTool.GraphQL.Types.Types
 
   query do
     field :teams, list_of(:team) do

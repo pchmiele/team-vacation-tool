@@ -1,5 +1,4 @@
-defmodule TeamVacationTool.Resolvers.UserResolver do
-  
+defmodule TeamVacationTool.GraphQL.Resolvers.UserResolver do
   alias TeamVacationTool.User
   alias TeamVacationTool.Repo
 

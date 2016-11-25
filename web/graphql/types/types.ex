@@ -1,4 +1,4 @@
-defmodule TeamVacationTool.Schema.Types do
+defmodule TeamVacationTool.GraphQL.Types.Types do
   use Absinthe.Schema.Notation
 
   object :user do

@@ -40,6 +40,7 @@ defmodule TeamVacationTool.Mixfile do
      {:cors_plug, "~> 1.1"},
      {:comeonin, "~> 2.0"},
      {:secure_random, "~> 0.2"},
+     {:credo, "~> 0.5", only: [:dev, :test]},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.11"},
      {:cowboy, "~> 1.0"}]
