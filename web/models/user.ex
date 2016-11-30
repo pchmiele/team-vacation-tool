@@ -7,17 +7,19 @@ defmodule TeamVacationTool.User do
     field :email, :string
     field :encrypted_password, :string
     field :password, :string, virtual: true
+    field :role_id, :integer
 
     belongs_to :team, Team
     timestamps
   end
 
-  @required_fields ~w(email password)
-  @optional_fields ~w()
+  @required_fields ~w(email password)a
+  @optional_fields ~w(role_id)a
 
   def registration_changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+    |> validate_required(@required_fields)
     |> validate_length(:email, min: 1, max: 255)
     |> validate_format(:email, ~r/@/)
     |> validate_length(:password, min: 6)

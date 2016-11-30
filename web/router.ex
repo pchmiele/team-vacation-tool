@@ -23,16 +23,23 @@ defmodule TeamVacationTool.Router do
     get "/", PageController, :index
   end
 
-  scope "/api", TeamVacationTool do
+  scope "/api" do
     pipe_through :api
 
-    resources "/users", UserController, only: [:create, :index]
-    resources "/sessions", SessionController, only: [:create] 
-    resources "/teams", TeamController
+    scope "/rest", TeamVacationTool do 
+      resources "/users", UserController, only: [:create, :index]
+      resources "/sessions", SessionController, only: [:create] 
+      resources "/teams", TeamController
+    end
+    
+    scope "/graphql" do 
+      pipe_through :graphql
+      forward "/", Absinthe.Plug, schema: TeamVacationTool.GraphQL.Schema
+    end
   end
 
-  get "/graphiql", Absinthe.Plug.GraphiQL, schema: TeamVacationTool.GraphQL.Schema
-  post "/graphiql", Absinthe.Plug.GraphiQL, schema: TeamVacationTool.GraphQL.Schema
-  forward "/graphql", Absinthe.Plug, schema: TeamVacationTool.GraphQL.Schema
-
+  if Mix.env == :dev do
+    get "/graphiql", Absinthe.Plug.GraphiQL, schema: TeamVacationTool.GraphQL.Schema
+    post "/graphiql", Absinthe.Plug.GraphiQL, schema: TeamVacationTool.GraphQL.Schema
+  end
 end

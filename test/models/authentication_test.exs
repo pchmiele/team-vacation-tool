@@ -1,38 +1,38 @@
-defmodule TeamVacationTool.AuthenticationTest do
-  use TeamVacationTool.ConnCase
+# defmodule TeamVacationTool.AuthenticationTest do
+#   use TeamVacationTool.ConnCase
 
-  alias TeamVacationTool.{Authentication, Repo, User, Session}
+#   alias TeamVacationTool.{Authentication, Repo, User, Session}
 
-  @opts Authentication.init([])
+#   @opts Authentication.init([])
 
-  def put_auth_token_in_header(conn, token) do
-    conn
-    |> put_req_header("authorization", "Token token=\"#{token}\"")
-  end
+#   def put_auth_token_in_header(conn, token) do
+#     conn
+#     |> put_req_header("authorization", "Token token=\"#{token}\"")
+#   end
 
-  test "finds the user by token", %{conn: conn} do
-    user = Repo.insert!(%User{email: "bar@baz.com", password: "s3cr3t"})
-    session = Repo.insert!(%Session{token: "123", user_id: user.id})
+#   test "finds the user by token", %{conn: conn} do
+#     user = Repo.insert!(%User{email: "bar@baz.com", password: "s3cr3t"})
+#     session = Repo.insert!(%Session{token: "123", user_id: user.id})
 
-    conn = conn
-    |> put_auth_token_in_header(session.token)
-    |> Authentication.call(@opts)
+#     conn = conn
+#     |> put_auth_token_in_header(session.token)
+#     |> Authentication.call(@opts)
 
-    assert conn.assigns.current_user
-  end
+#     assert conn.assigns.current_user
+#   end
 
-  test "invalid token", %{conn: conn} do
-    conn = conn
-    |> put_auth_token_in_header("foo")
-    |> Authentication.call(@opts)
+#   test "invalid token", %{conn: conn} do
+#     conn = conn
+#     |> put_auth_token_in_header("foo")
+#     |> Authentication.call(@opts)
 
-    assert conn.status == 401
-    assert conn.halted
-  end
+#     assert conn.status == 401
+#     assert conn.halted
+#   end
 
-  test "no token", %{conn: conn} do
-    conn = Authentication.call(conn, @opts)
-    assert conn.status == 401
-    assert conn.halted
-  end
-end
+#   test "no token", %{conn: conn} do
+#     conn = Authentication.call(conn, @opts)
+#     assert conn.status == 401
+#     assert conn.halted
+#   end
+# end

@@ -4,7 +4,7 @@ defmodule TeamVacationTool.UserTest do
 
   alias TeamVacationTool.User
 
-  @valid_attrs %{email: "bar@baz.com", password: "s3cr3t"}
+  @valid_attrs %{email: "bar@baz.com", password: "s3cr3t", role_id: 1}
 
   test "changeset with valid attributes" do
     changeset = User.registration_changeset(%User{}, @valid_attrs)
@@ -27,7 +27,7 @@ defmodule TeamVacationTool.UserTest do
 
   test "registration_changeset, password ok" do
     changeset = User.registration_changeset(%User{}, @valid_attrs)
-    assert changeset.changes.encrypted_password
+    assert changeset.changes.password
     assert changeset.valid?
   end
 

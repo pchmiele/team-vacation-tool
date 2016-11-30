@@ -5,6 +5,7 @@ defmodule TeamVacationTool.GraphQL.Types.Types do
     field :id, :id
     field :email, :string
     field :team, :team
+    field :role_id, :integer
   end
 
   object :team do

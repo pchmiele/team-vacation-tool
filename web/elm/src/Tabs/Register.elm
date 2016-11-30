@@ -44,7 +44,7 @@ httpCheckCredentials' username password =
             [ ( "Content-Type", "application/json" )
             , ( "Accept", "application/json" )
             ]
-        , url = "http://127.0.0.1:4000/api/users"
+        , url = "http://127.0.0.1:4000/api/rest/users"
         , body =
             Http.string <| encodeRegisterRequest username password
         }

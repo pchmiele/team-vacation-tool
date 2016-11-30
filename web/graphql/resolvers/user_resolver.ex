@@ -9,6 +9,10 @@ defmodule TeamVacationTool.GraphQL.Resolvers.UserResolver do
     end
   end
 
+  def profile(_parent,  %{context: %{current_user: current_user}}) do
+    {:ok, current_user |> Repo.preload(:team) }
+  end
+
   def all(_parent, _args, _info) do
     {:ok, Repo.all(User) |> Repo.preload(:team) }
   end
