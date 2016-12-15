@@ -23,6 +23,6 @@ defmodule TeamVacationTool.Router do
     pipe_through :api
 
     resources "/users", UserController, only: [:create]
-    resources "/sessions", SessionController, only: [:create] 
+    resources "/sessions", SessionController, only: [:create]
   end
 end
