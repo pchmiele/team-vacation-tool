@@ -8,7 +8,7 @@ import Components.Registration.Model exposing (..)
 dataDecoder : Decode.Decoder Data
 dataDecoder =
     succeed Data
-        |: (field "id" string)
+        |: (field "id" int)
         |: (field "email" string)
 
 

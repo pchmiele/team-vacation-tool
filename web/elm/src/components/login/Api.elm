@@ -14,7 +14,7 @@ auth model =
             Http.request
                 { method = "POST"
                 , headers = []
-                , url = "http://127.0.0.1:4000/api/sessions"
+                , url = "http://127.0.0.1:4000/api/rest/sessions"
                 , body = jsonBody (userEncoder model.form)
                 , expect = expectJson authResponseDecoder
                 , timeout = Nothing

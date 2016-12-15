@@ -7,7 +7,9 @@ import Components.Registration.Update as Registration
 import Components.Home.Update as Home
 import Components.Header.Update as Header
 import Components.Header.Messages as HeaderMessages
+import Components.Registration.Messages as RegistrationMessages
 import Components.Login.Messages as LoginMessages
+import Components.Login.Model as LoginModel
 import Routing exposing (parseLocation)
 import Material
 
@@ -49,6 +51,19 @@ update msg model =
                         Login.update subMsg model.login
                 in
                     { model | login = login, auth_token = login.auth_token } ! [ Cmd.map LoginMsg cmd ]
+
+            RegistrationMsg (RegistrationMessages.SignUpResponse (Ok response)) ->
+                let
+                    old_login =
+                        model.login
+
+                    form =
+                        LoginModel.FormModel model.registration.form.email model.registration.form.password
+
+                    ( login, cmd ) =
+                        Login.update LoginMessages.SignIn { old_login | form = form }
+                in
+                    { model | login = login, auth_token = Nothing } ! [ Cmd.map LoginMsg cmd ]
 
             RegistrationMsg subMsg ->
                 let

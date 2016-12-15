@@ -14,7 +14,7 @@ signUp model =
             Http.request
                 { method = "POST"
                 , headers = []
-                , url = "http://127.0.0.1:4000/api/users"
+                , url = "http://127.0.0.1:4000/api/rest/users"
                 , body = jsonBody (userEncoder model.form)
                 , expect = expectJson singUpResponseDecoder
                 , timeout = Nothing

@@ -38,7 +38,7 @@ update msg model =
             )
 
         SignUpResponse (Err err) ->
-            { model | error = (Just "Could not find user matching given email and password") } ! []
+            { model | error = (Just "Could not create user using providen email and password.") } ! []
 
         NavigateToLogin ->
             model ! [ Navigation.newUrl (toPath LoginNewRoute) ]

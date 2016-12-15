@@ -23,7 +23,7 @@ type alias LoginError =
 
 
 type alias Data =
-    { id : String
+    { id : Int
     , email : String
     }
 
