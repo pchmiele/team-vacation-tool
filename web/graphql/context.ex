@@ -1,19 +1,36 @@
-defmodule TeamVacationTool.Authentication do
+defmodule TeamVacationTool.GraphQL.Context do
+  @moduledoc """
+  This module is just a regular plug that can look at the conn struct and build
+  the appropriate absinthe context.
+  """
+
+  @behaviour Plug
+
   import Plug.Conn
-  alias TeamVacationTool.{Repo, User, Session}
-  import Ecto.Query, only: [from: 2]
+  import Ecto.Query
+
+  alias TeamVacationTool.{Repo, Session, User}
 
   def init(options), do: options
 
   def call(conn, _opts) do
-    case find_user(conn) do
-      {:ok, user} -> assign(conn, :current_user, user)
-      _otherwise  -> auth_error!(conn)
-    end
+    case build_context(conn) do
+      {:ok, context} -> 
+        put_private(conn, :absinthe, %{context: context})
+      {:error, reason} ->
+          conn
+          |> send_resp(403, reason)
+          |> halt()
+        _ ->
+          conn
+          |> send_resp(400, "Bad Request")
+          |> halt()
+      end
   end
 
-  defp find_user(conn) do
+  defp build_context(conn) do
     with auth_header = get_req_header(conn, "authorization"),
+         _ <- IO.puts(auth_header),
          {:ok, token}   <- parse_token(auth_header),
          {:ok, session} <- find_session_by_token(token),
     do:  find_user_by_session(session)
@@ -34,11 +51,7 @@ defmodule TeamVacationTool.Authentication do
   defp find_user_by_session(session) do
     case Repo.get(User, session.user_id) do
       nil  -> :error
-      user -> {:ok, user}
+      current_user -> {:ok, %{current_user: current_user}}
     end
-  end
-
-  defp auth_error!(conn) do
-    conn |> put_status(:unauthorized) |> halt()
   end
 end

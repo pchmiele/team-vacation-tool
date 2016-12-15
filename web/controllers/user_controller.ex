@@ -19,4 +19,9 @@ defmodule TeamVacationTool.UserController do
         |> render(TeamVacationTool.ErrorView, "error.json", changeset: changeset)
     end
   end
+
+  def index(conn, _params) do
+    users = Repo.all(User)
+    render(conn, "index.json", users: users)
+  end
 end
