@@ -11,8 +11,8 @@ import Routing exposing (..)
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        Mdl mesessage ->
-            Material.update mesessage model
+        Mdl message ->
+            Material.update message model
 
         HandlePasswordInput new_password ->
             let
@@ -43,8 +43,4 @@ update msg model =
             model ! [ Navigation.newUrl (toPath RegistrationNewRoute) ]
 
         SignOut ->
-            let
-                _ =
-                    Debug.log "debug" { model | user = Nothing, auth_token = Nothing, form = emptyForm }
-            in
-                { model | user = Nothing, auth_token = Nothing, form = emptyForm } ! [ Navigation.newUrl (toPath LoginNewRoute) ]
+            { model | user = Nothing, auth_token = Nothing, form = emptyForm } ! [ Navigation.newUrl (toPath LoginNewRoute) ]
