@@ -1,7 +1,6 @@
 module Components.Registration.Update exposing (..)
 
 import Components.Registration.Model exposing (..)
-import Components.Registration.View exposing (..)
 import Components.Registration.Api exposing (..)
 import Components.Registration.Messages exposing (..)
 import Material
@@ -12,8 +11,8 @@ import Routing exposing (..)
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        Mdl mesessage ->
-            Material.update mesessage model
+        Mdl message ->
+            Material.update message model
 
         HandlePasswordInput new_password ->
             let

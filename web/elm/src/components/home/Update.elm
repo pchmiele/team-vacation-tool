@@ -10,8 +10,8 @@ import Material
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        Mdl mesessage ->
-            Material.update mesessage model
+        Mdl message ->
+            Material.update message model
 
         NavigateToHome ->
             model ! [ Navigation.newUrl (toPath HomeIndexRoute) ]

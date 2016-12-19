@@ -1,6 +1,6 @@
 defmodule TeamVacationTool.User do
   use TeamVacationTool.Web, :model
-  
+
   alias TeamVacationTool.Team
 
   schema "users" do
@@ -23,6 +23,7 @@ defmodule TeamVacationTool.User do
     |> validate_length(:email, min: 1, max: 255)
     |> validate_format(:email, ~r/@/)
     |> validate_length(:password, min: 6)
+    |> unique_constraint(:email)
     |> put_encrypted_password
   end
 
