@@ -25,3 +25,12 @@ config :logger, :console,
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"
+
+config :guardian, Guardian,
+  allowed_algos: ["HS512"],
+  verify_module: Guardian.JWT,
+  issuer: "TeamVacationTool",
+  ttl: { 30, :days },
+  verify_issuer: true, # optional
+  secret_key: "Sjv4jM4zBL61/Eaof+7RaChSQDRJpXMlqIoDJBodsI/qT6m9lc0C7OJunm/Pr992",
+  serializer: TeamVacationTool.GuardianSerializer

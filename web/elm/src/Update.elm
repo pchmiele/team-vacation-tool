@@ -21,8 +21,8 @@ update msg model =
             model.auth_token
     in
         case msg of
-            Mdl mesessage ->
-                Material.update mesessage model
+            Mdl message ->
+                Material.update message model
 
             HeaderMsg (HeaderMessages.SignOut) ->
                 let

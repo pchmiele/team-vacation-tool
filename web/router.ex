@@ -14,6 +14,8 @@ defmodule TeamVacationTool.Router do
   end
 
   pipeline :graphql do
+    plug Guardian.Plug.VerifyHeader, realm: "Bearer"
+    plug Guardian.Plug.LoadResource
     plug TeamVacationTool.GraphQL.Context
   end
 
@@ -26,7 +28,7 @@ defmodule TeamVacationTool.Router do
   scope "/api" do
     pipe_through :api
 
-    scope "/rest", TeamVacationTool do 
+    scope "/rest", TeamVacationTool do
       resources "/users", UserController, only: [:create, :index]
       resources "/sessions", SessionController, only: [:create]
       resources "/teams", TeamController
@@ -39,7 +41,6 @@ defmodule TeamVacationTool.Router do
   end
 
   if Mix.env == :dev do
-    get "/graphiql", Absinthe.Plug.GraphiQL, schema: TeamVacationTool.GraphQL.Schema
-    post "/graphiql", Absinthe.Plug.GraphiQL, schema: TeamVacationTool.GraphQL.Schema
+    forward "/graphiql", Absinthe.Plug.GraphiQL, schema: TeamVacationTool.GraphQL.Schema
   end
 end

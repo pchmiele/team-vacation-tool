@@ -19,7 +19,7 @@ defmodule TeamVacationTool.Mixfile do
   def application do
     [mod: {TeamVacationTool, []},
      applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :absinthe_plug]]
+                    :phoenix_ecto, :postgrex, :absinthe_plug, :comeonin, :quardian]]
   end
 
   # Specifies which paths to compile per environment.
@@ -43,7 +43,9 @@ defmodule TeamVacationTool.Mixfile do
      {:credo, "~> 0.5", only: [:dev, :test]},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.11"},
-     {:cowboy, "~> 1.0"}]
+     {:cowboy, "~> 1.0"},
+     {:comeonin, "~> 2.5"},
+     {:guardian, "~> 0.13.0"}]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.
