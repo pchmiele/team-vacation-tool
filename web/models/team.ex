@@ -2,6 +2,7 @@ defmodule TeamVacationTool.Team do
   use TeamVacationTool.Web, :model
 
   alias TeamVacationTool.User
+
   schema "teams" do
     field :name, :string
 

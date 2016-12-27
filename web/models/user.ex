@@ -1,6 +1,6 @@
 defmodule TeamVacationTool.User do
   use TeamVacationTool.Web, :model
-  
+
   alias TeamVacationTool.Team
 
   schema "users" do
@@ -16,19 +16,20 @@ defmodule TeamVacationTool.User do
   @required_fields ~w(email password)a
   @optional_fields ~w(role_id)a
 
-  def registration_changeset(model, params \\ :empty) do
+  def signup_changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
     |> validate_required(@required_fields)
     |> validate_length(:email, min: 1, max: 255)
     |> validate_format(:email, ~r/@/)
     |> validate_length(:password, min: 6)
+    |> unique_constraint(:email)
     |> put_encrypted_password
   end
 
   def with_team_changeset(model, params \\ :empty) do
     model
-    |> registration_changeset(params)
+    |> signup_changeset(params)
     |> cast(params, ~w(team_id), [])
   end
 
