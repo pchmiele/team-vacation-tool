@@ -1,8 +1,8 @@
-module Components.Registration.Messages exposing (..)
+module Components.SignUp.Messages exposing (..)
 
 import Material
 import Http
-import Components.Registration.Model exposing (..)
+import Components.SignUp.Model exposing (..)
 
 
 type Msg
@@ -11,4 +11,4 @@ type Msg
     | HandlePasswordInput String
     | SignUp
     | SignUpResponse (Result Http.Error SignUpResponseModel)
-    | NavigateToLogin
+    | NavigateToSignIn

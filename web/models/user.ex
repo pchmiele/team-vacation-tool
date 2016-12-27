@@ -16,7 +16,7 @@ defmodule TeamVacationTool.User do
   @required_fields ~w(email password)a
   @optional_fields ~w(role_id)a
 
-  def registration_changeset(model, params \\ :empty) do
+  def signup_changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
     |> validate_required(@required_fields)
@@ -29,7 +29,7 @@ defmodule TeamVacationTool.User do
 
   def with_team_changeset(model, params \\ :empty) do
     model
-    |> registration_changeset(params)
+    |> signup_changeset(params)
     |> cast(params, ~w(team_id), [])
   end
 

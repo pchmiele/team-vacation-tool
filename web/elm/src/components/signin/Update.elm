@@ -1,8 +1,8 @@
-module Components.Login.Update exposing (..)
+module Components.SignIn.Update exposing (..)
 
-import Components.Login.Model exposing (..)
-import Components.Login.Api exposing (..)
-import Components.Login.Messages exposing (..)
+import Components.SignIn.Model exposing (..)
+import Components.SignIn.Api exposing (..)
+import Components.SignIn.Messages exposing (..)
 import Material
 import Navigation
 import Routing exposing (..)
@@ -29,18 +29,22 @@ update msg model =
                 { model | form = { form | email = new_email } } ! []
 
         SignIn ->
-            { model | user = Just <| User model.form.email } ! [ auth model ]
+            { model | user = Just <| User model.form.email } ! [ signIn model ]
 
         SignInResponse (Ok response) ->
-            ( { model | error = Nothing, auth_token = Just response.data.token }
+            ( { model | error = Nothing, auth_token = Just response.signin.token }
             , Navigation.newUrl (toPath HomeIndexRoute)
             )
 
         SignInResponse (Err err) ->
-            { model | user = Nothing, error = (Just "Could not find user matching given email and password") } ! []
+            let
+                _ =
+                    Debug.log "debug" err
+            in
+                { model | user = Nothing, error = (Just "Could not find user matching given email and password") } ! []
 
-        NavigateToRegistration ->
-            model ! [ Navigation.newUrl (toPath RegistrationNewRoute) ]
+        NavigateToSignUp ->
+            model ! [ Navigation.newUrl (toPath SignUpRoute) ]
 
         SignOut ->
-            { model | user = Nothing, auth_token = Nothing, form = emptyForm } ! [ Navigation.newUrl (toPath LoginNewRoute) ]
+            { model | user = Nothing, auth_token = Nothing, form = emptyForm } ! [ Navigation.newUrl (toPath SignInRoute) ]

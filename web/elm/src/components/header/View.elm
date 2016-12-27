@@ -4,13 +4,13 @@ import Html exposing (..)
 import Components.Header.Model exposing (..)
 import Components.Header.Messages exposing (..)
 import Material.Layout as Layout
-import Components.Login.Model as Login
+import Components.SignIn.Model as SignIn
 import Material.Icon as Icon
 import Material.Menu as Menu
 
 
-view : Login.Model -> Model -> Html Msg
-view loginModel model =
+view : SignIn.Model -> Model -> Html Msg
+view signIn model =
     Layout.row
         []
         [ Layout.title [] [ text "Team Vacation Tool" ]
@@ -21,7 +21,7 @@ view loginModel model =
                 [ Icon.i "account_circle" ]
             , Layout.link
                 []
-                [ text <| userName loginModel ]
+                [ text <| userName signIn ]
             , menu model
             ]
         ]
@@ -42,10 +42,10 @@ menu model =
         ]
 
 
-userName : Login.Model -> String
-userName loginModel =
+userName : SignIn.Model -> String
+userName signInModel =
     let
         user =
-            Maybe.withDefault (Login.User "") loginModel.user
+            Maybe.withDefault (SignIn.User "") signInModel.user
     in
         user.email

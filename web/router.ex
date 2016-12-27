@@ -30,7 +30,6 @@ defmodule TeamVacationTool.Router do
 
     scope "/rest", TeamVacationTool do
       resources "/users", UserController, only: [:create, :index]
-      resources "/sessions", SessionController, only: [:create]
       resources "/teams", TeamController
     end
 

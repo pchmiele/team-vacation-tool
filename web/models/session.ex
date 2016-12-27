@@ -1,30 +1,17 @@
 defmodule TeamVacationTool.Session do
-  use TeamVacationTool.Web, :model
+  alias TeamVacationTool.User
 
-  schema "sessions" do
-    field :token, :string
-    belongs_to :user, TeamVacationTool.User
-
-    timestamps()
+  def authenticate(user, credentials) do
+    case check_password(user, credentials.password) do
+      true -> {:ok, user}
+      _ -> {:error, "Incorrect login credentials"}
+    end
   end
 
-  @required_fields ~w(user_id)
-  @optional_fields ~w()
-
-  @doc """
-  Creates a changeset based on the `model` and `params`.
-
-  If no params are provided, an invalid changeset is returned
-  with no validation performed.
-  """
-  def changeset(model, params \\ :empty) do
-    model
-    |> cast(params, @required_fields, @optional_fields)
-  end
-
-  def create_changeset(model, params \\ :empty) do
-    model
-    |> changeset(params)
-    |> put_change(:token, SecureRandom.urlsafe_base64())
+  defp check_password(user, password) do
+    case user do
+      nil -> false
+      _ -> Comeonin.Bcrypt.checkpw(password, user.encrypted_password)
+    end
   end
 end

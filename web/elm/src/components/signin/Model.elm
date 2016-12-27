@@ -1,4 +1,4 @@
-module Components.Login.Model exposing (..)
+module Components.SignIn.Model exposing (..)
 
 import Material
 
@@ -27,19 +27,19 @@ type alias FormModel =
     }
 
 
-type alias LoginError =
+type alias SignInError =
     { email : Maybe String
     , password : Maybe String
     }
 
 
-type alias Data =
+type alias Token =
     { token : String
     }
 
 
 type alias SignInResponseModel =
-    { data : Data
+    { signin : Token
     }
 
 

@@ -5,8 +5,8 @@ import Html.Attributes exposing (..)
 import Model exposing (..)
 import Messages exposing (..)
 import Routing exposing (..)
-import Components.Login.View as LoginView
-import Components.Registration.View as RegistrationView
+import Components.SignIn.View as SignInView
+import Components.SignUp.View as SignUpView
 import Components.Home.View as HomeView
 import Components.Header.View as HeaderView
 import Material.Layout as Layout
@@ -29,7 +29,7 @@ header : Model -> List (Html Messages.Msg)
 header model =
     case model.auth_token of
         Just token ->
-            [ Html.map HeaderMsg (HeaderView.view model.login model.header) ]
+            [ Html.map HeaderMsg (HeaderView.view model.signIn model.header) ]
 
         Nothing ->
             []
@@ -41,13 +41,13 @@ body model =
         bodyContent =
             case model.route of
                 HomeIndexRoute ->
-                    Html.map HomeMsg (HomeView.view model.login model.home)
+                    Html.map HomeMsg (HomeView.view model.signIn model.home)
 
-                LoginNewRoute ->
-                    Html.map LoginMsg (LoginView.view model.login)
+                SignInRoute ->
+                    Html.map SignInMsg (SignInView.view model.signIn)
 
-                RegistrationNewRoute ->
-                    Html.map RegistrationMsg (RegistrationView.view model.registration)
+                SignUpRoute ->
+                    Html.map SignUpMsg (SignUpView.view model.signUp)
 
                 _ ->
                     notFoundView

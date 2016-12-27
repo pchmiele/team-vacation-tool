@@ -4,8 +4,8 @@ import Material
 import Routing exposing (..)
 import Components.Home.Model as Home
 import Components.Header.Model as Header
-import Components.Login.Model as Login
-import Components.Registration.Model as Registration
+import Components.SignIn.Model as SignIn
+import Components.SignUp.Model as SignUp
 
 
 type alias Model =
@@ -13,8 +13,8 @@ type alias Model =
     , route : Route
     , header : Header.Model
     , home : Home.Model
-    , login : Login.Model
-    , registration : Registration.Model
+    , signIn : SignIn.Model
+    , signUp : SignUp.Model
     , auth_token : Maybe String
     }
 
@@ -29,7 +29,7 @@ initialModel auth_token route =
     , route = route
     , header = Header.initialModel
     , home = Home.initialModel
-    , login = Login.init auth_token
-    , registration = Registration.init
+    , signIn = SignIn.init auth_token
+    , signUp = SignUp.init
     , auth_token = auth_token
     }

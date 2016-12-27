@@ -1,7 +1,7 @@
-module Components.Registration.View exposing (..)
+module Components.SignUp.View exposing (..)
 
-import Components.Registration.Model exposing (..)
-import Components.Registration.Messages exposing (..)
+import Components.SignUp.Model exposing (..)
+import Components.SignUp.Messages exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (href, class, style)
 import Material.Button as Button
@@ -73,7 +73,7 @@ view model =
                 model.mdl
                 [ Button.plain
                 , Button.flat
-                , Button.onClick NavigateToLogin
+                , Button.onClick NavigateToSignIn
                 ]
                 [ text "Sing In" ]
             ]

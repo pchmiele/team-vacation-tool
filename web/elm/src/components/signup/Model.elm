@@ -1,4 +1,4 @@
-module Components.Registration.Model exposing (..)
+module Components.SignUp.Model exposing (..)
 
 import Material
 
@@ -23,7 +23,7 @@ type alias LoginError =
 
 
 type alias Data =
-    { id : Int
+    { id : String
     , email : String
     }
 

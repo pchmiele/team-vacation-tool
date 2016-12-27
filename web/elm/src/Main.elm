@@ -8,7 +8,7 @@ import Update exposing (..)
 import Routing exposing (Route)
 import Routing exposing (..)
 import Subscriptions exposing (..)
-import Components.Login.Model as Login
+import Components.SignIn.Model as SignIn
 
 
 init : Navigation.Location -> ( Model, Cmd Messages.Msg )
@@ -18,21 +18,21 @@ init location =
             Routing.parseLocation location
 
         model =
-            initialModel Nothing LoginNewRoute
+            initialModel Nothing SignInRoute
     in
         ( model, Cmd.none )
 
 
-authenticationCheck : Login.Model -> Cmd Messages.Msg
-authenticationCheck login =
-    case login.user of
+authenticationCheck : SignIn.Model -> Cmd Messages.Msg
+authenticationCheck signIn =
+    case signIn.user of
         Nothing ->
-            case login.auth_token of
+            case signIn.auth_token of
                 Nothing ->
-                    Navigation.newUrl (toPath LoginNewRoute)
+                    Navigation.newUrl (toPath SignInRoute)
 
                 Just auth_token ->
-                    Navigation.newUrl (toPath LoginNewRoute)
+                    Navigation.newUrl (toPath SignInRoute)
 
         Just user ->
             Cmd.none

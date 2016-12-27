@@ -7,8 +7,8 @@ import UrlParser
 
 type Route
     = HomeIndexRoute
-    | LoginNewRoute
-    | RegistrationNewRoute
+    | SignInRoute
+    | SignUpRoute
     | NotFoundRoute
 
 
@@ -18,10 +18,10 @@ toPath route =
         HomeIndexRoute ->
             "/"
 
-        LoginNewRoute ->
+        SignInRoute ->
             "/sign-in"
 
-        RegistrationNewRoute ->
+        SignUpRoute ->
             "/sign-up"
 
         NotFoundRoute ->
@@ -32,8 +32,8 @@ matchers : Parser (Route -> a) a
 matchers =
     oneOf
         [ map HomeIndexRoute (s "")
-        , map LoginNewRoute (s "sign-in")
-        , map RegistrationNewRoute (s "sign-up")
+        , map SignInRoute (s "sign-in")
+        , map SignUpRoute (s "sign-up")
         ]
 
 

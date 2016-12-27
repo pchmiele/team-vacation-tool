@@ -2,14 +2,14 @@ module Update exposing (..)
 
 import Messages exposing (Msg(..))
 import Model exposing (..)
-import Components.Login.Update as Login
-import Components.Registration.Update as Registration
+import Components.SignIn.Update as SignIn
+import Components.SignIn.Messages as SignInMessages
+import Components.SignIn.Model as SignInModel
+import Components.SignUp.Update as SignUp
+import Components.SignUp.Messages as SignUpMessages
 import Components.Home.Update as Home
 import Components.Header.Update as Header
 import Components.Header.Messages as HeaderMessages
-import Components.Registration.Messages as RegistrationMessages
-import Components.Login.Messages as LoginMessages
-import Components.Login.Model as LoginModel
 import Routing exposing (parseLocation)
 import Material
 
@@ -26,10 +26,10 @@ update msg model =
 
             HeaderMsg (HeaderMessages.SignOut) ->
                 let
-                    ( login, cmd ) =
-                        Login.update LoginMessages.SignOut model.login
+                    ( signIn, cmd ) =
+                        SignIn.update SignInMessages.SignOut model.signIn
                 in
-                    { model | login = login, auth_token = Nothing } ! [ Cmd.map LoginMsg cmd ]
+                    { model | signIn = signIn, auth_token = Nothing } ! [ Cmd.map SignInMsg cmd ]
 
             HeaderMsg subMsg ->
                 let
@@ -45,32 +45,32 @@ update msg model =
                 in
                     { model | home = home } ! [ Cmd.map HomeMsg cmd ]
 
-            LoginMsg subMsg ->
+            SignInMsg subMsg ->
                 let
-                    ( login, cmd ) =
-                        Login.update subMsg model.login
+                    ( signIn, cmd ) =
+                        SignIn.update subMsg model.signIn
                 in
-                    { model | login = login, auth_token = login.auth_token } ! [ Cmd.map LoginMsg cmd ]
+                    { model | signIn = signIn, auth_token = signIn.auth_token } ! [ Cmd.map SignInMsg cmd ]
 
-            RegistrationMsg (RegistrationMessages.SignUpResponse (Ok response)) ->
+            SignUpMsg (SignUpMessages.SignUpResponse (Ok response)) ->
                 let
-                    old_login =
-                        model.login
+                    previousSignIn =
+                        model.signIn
 
                     form =
-                        LoginModel.FormModel model.registration.form.email model.registration.form.password
+                        SignInModel.FormModel model.signUp.form.email model.signUp.form.password
 
-                    ( login, cmd ) =
-                        Login.update LoginMessages.SignIn { old_login | form = form }
+                    ( signIn, cmd ) =
+                        SignIn.update SignInMessages.SignIn { previousSignIn | form = form }
                 in
-                    { model | login = login, auth_token = Nothing } ! [ Cmd.map LoginMsg cmd ]
+                    { model | signIn = signIn, auth_token = Nothing } ! [ Cmd.map SignInMsg cmd ]
 
-            RegistrationMsg subMsg ->
+            SignUpMsg subMsg ->
                 let
-                    ( registration, cmd ) =
-                        Registration.update subMsg model.registration
+                    ( signUp, cmd ) =
+                        SignUp.update subMsg model.signUp
                 in
-                    { model | registration = registration } ! [ Cmd.map RegistrationMsg cmd ]
+                    { model | signUp = signUp } ! [ Cmd.map SignUpMsg cmd ]
 
             OnLocationChange location ->
                 let

@@ -19,7 +19,7 @@ defmodule TeamVacationTool.Mixfile do
   def application do
     [mod: {TeamVacationTool, []},
      applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :absinthe_plug, :comeonin, :quardian]]
+                    :phoenix_ecto, :postgrex, :absinthe_plug, :absinthe_ecto, :comeonin, :guardian]]
   end
 
   # Specifies which paths to compile per environment.
@@ -37,6 +37,7 @@ defmodule TeamVacationTool.Mixfile do
      {:phoenix_html, "~> 2.6"},
      {:absinthe, "~> 1.2.0"},
      {:absinthe_plug, "~> 1.1"},
+     {:absinthe_ecto, git: "https://github.com/absinthe-graphql/absinthe_ecto.git"},
      {:cors_plug, "~> 1.1"},
      {:comeonin, "~> 2.0"},
      {:secure_random, "~> 0.2"},

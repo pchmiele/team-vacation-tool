@@ -1,8 +1,8 @@
-module Components.Registration.Update exposing (..)
+module Components.SignUp.Update exposing (..)
 
-import Components.Registration.Model exposing (..)
-import Components.Registration.Api exposing (..)
-import Components.Registration.Messages exposing (..)
+import Components.SignUp.Model exposing (..)
+import Components.SignUp.Api exposing (..)
+import Components.SignUp.Messages exposing (..)
 import Material
 import Navigation
 import Routing exposing (..)
@@ -33,11 +33,11 @@ update msg model =
 
         SignUpResponse (Ok response) ->
             ( { model | error = Nothing }
-            , Navigation.newUrl (toPath LoginNewRoute)
+            , Navigation.newUrl (toPath SignInRoute)
             )
 
         SignUpResponse (Err err) ->
             { model | error = (Just "Could not create user using providen email and password.") } ! []
 
-        NavigateToLogin ->
-            model ! [ Navigation.newUrl (toPath LoginNewRoute) ]
+        NavigateToSignIn ->
+            model ! [ Navigation.newUrl (toPath SignInRoute) ]
